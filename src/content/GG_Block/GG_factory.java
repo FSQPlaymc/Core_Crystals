@@ -106,7 +106,7 @@ public class GG_factory {
             size = 2;
             hasPower = hasItems = true;
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
-            ambientSound = Sounds.smelter;
+            ambientSound = Sounds.loopSmelter;
             ambientSoundVolume = 0.07f;
 
             consumeItems(with(Items.lead, 1, Items.sand, 1));
@@ -147,7 +147,7 @@ public class GG_factory {
                             glowScale = 6f;
                         }}
                 );
-                ambientSound = Sounds.electricHum;
+                ambientSound = Sounds.loopElectricHum;
                 ambientSoundVolume = 0.08f;
 
                 regionRotated1 = 3;
@@ -185,7 +185,7 @@ public class GG_factory {
                 spinSprite = true;
                 rotateSpeed = 2f;
             }}, new DrawRegion("-top"));
-            ambientSound = Sounds.grinding;
+            ambientSound = Sounds.none;
             ambientSoundVolume = 0.025f;
 
             consumeItem(Items.silicon, 2);//GGItems.Sifenmo
@@ -273,7 +273,7 @@ public class GG_factory {
             size=4;
             craftEffect = Fx.smeltsmoke;
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
-            ambientSound = Sounds.smelter;//环境音效
+            ambientSound = Sounds.wind;//环境音效
             ambientSoundVolume = 0.07f;//环境音效大小
             health=1350;
             craftTime=50;

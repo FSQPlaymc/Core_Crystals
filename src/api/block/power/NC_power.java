@@ -79,7 +79,7 @@ public class NC_power extends NuclearReactor {
         this.explosionRadius = 19+DWS*3;    // 爆炸范围（半径）
         this.explosionDamage = 5000+500*DWS;  // 爆炸伤害值
         this.explodeEffect = Fx.reactorExplosion;
-        this.explodeSound = Sounds.explosionbig;
+        this.explodeSound = Sounds.explosionReactor;//音效
         // 添加基础发电量设置（关键！）
         this.powerProduction = 100f; // 示例值，可根据平衡调整
     }

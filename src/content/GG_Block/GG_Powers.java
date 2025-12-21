@@ -34,7 +34,7 @@ public class GG_Powers {
             health = 900;
             powerProduction = 130f;
             itemDuration = 140f;
-            ambientSound = Sounds.pulse;
+            ambientSound = Sounds.loopPulse;
             ambientSoundVolume = 0.07f;
             liquidCapacity = 80f;
             requirements(Category.power, with(Items.lead, 500, Items.silicon, 300, Items.graphite, 400, Items.thorium, 100, Items.surgeAlloy, 250, Items.metaglass, 250));
@@ -66,7 +66,7 @@ public class GG_Powers {
         }};
         hefanyingdui=new NuclearReactor("核反应堆"){{
             requirements(Category.power, with(Items.lead, 300, Items.silicon, 200, Items.graphite, 150, Items.thorium, 150, Items.metaglass, 50,GGItems.TanNaMiHeXing,200));
-            ambientSound = Sounds.hum;
+            ambientSound = Sounds.loopThoriumReactor;
             ambientSoundVolume = 0.74f;
             size = 5;
             health = 1700;
@@ -81,7 +81,7 @@ public class GG_Powers {
         }};
         ffff=new NC_power("ffff"){{
             requirements(Category.power, with(Items.lead, 20, Items.silicon, 32));
-            ambientSound = Sounds.hum;
+            ambientSound = Sounds.loopThoriumReactor;
             ambientSoundVolume = 0.24f;
             size=2;
             outputItem=new ItemStack(Items.silicon,1);
@@ -110,7 +110,7 @@ public class GG_Powers {
             size = 2;
             generateEffect = Fx.generatespark;
 
-            ambientSound = Sounds.smelter;
+            ambientSound = Sounds.loopThoriumReactor;
             ambientSoundVolume = 0.06f;
             // 消耗物品条件系统：
             consume(new ConsumeItemFlammable());  // 要求输入物品具有可燃性属性
