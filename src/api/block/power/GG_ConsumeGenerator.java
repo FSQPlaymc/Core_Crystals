@@ -4,6 +4,7 @@ import arc.Events;
 import arc.math.Mathf;
 import arc.util.Nullable;
 import arc.util.Time;
+import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.game.EventType;
 import mindustry.type.ItemStack;
@@ -23,8 +24,8 @@ public class GG_ConsumeGenerator extends ConsumeGenerator {
     public LiquidStack[] outputLiquids;
     public boolean dumpExtraLiquid = true;
     public boolean ignoreLiquidFullness = false;
-    public Effect craftEffect;
-    public Effect updateEffect;
+    public Effect craftEffect= Fx.none; // 提供默认值;
+    public Effect updateEffect= Fx.none;
     public int[] liquidOutputDirections = new int[]{-1};
     public GG_ConsumeGenerator(String name) {
         super(name);
@@ -140,7 +141,7 @@ public class GG_ConsumeGenerator extends ConsumeGenerator {
                     Events.fire(new EventType.GeneratorPressureExplodeEvent(this));
                 }
             }
-
+            this.dumpOutputs();
             this.generateTime -= this.delta() / (GG_ConsumeGenerator.this.itemDuration * this.itemDurationMultiplier);
         }
         public void craft() {
