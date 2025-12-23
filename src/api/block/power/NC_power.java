@@ -86,10 +86,9 @@ public class NC_power extends NuclearReactor {
     // 定义计时器ID（可自定义，只要唯一即可）
     private static final int UPDATE_TIMER = 1;
     // 定义调用间隔（单位： ticks，60ticks = 1秒）
-    private static final float UPDATE_INTERVAL = 90f; // 1秒调用一次
+    private static final float UPDATE_INTERVAL = 60f; // 1秒调用一次
     private int factoryX,CV= 0;
     private int factoryY = 0;
-    private int[][] asdf;
     private int checkX;
     private int DWS;//单元数
     private float SQQ;
@@ -232,6 +231,7 @@ public class NC_power extends NuclearReactor {
             FS=FS+1;
 
             // 再创建新数组
+            int[][] asdf;
             asdf =new int[FS][FL];
             DWS=0;
             SQQ=0f;
