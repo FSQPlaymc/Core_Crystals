@@ -90,7 +90,7 @@ public class NC_power extends NuclearReactor {
     private int factoryX,CV= 0;
     private int factoryY = 0;
     private int checkX;
-    private int DWS;//单元数
+    private int DWS,smk;//单元数
     private float SQQ;
     private float fare;
     private float xiaolu =0;//冷却量
@@ -246,7 +246,7 @@ public class NC_power extends NuclearReactor {
             if (FL!=1&&FS!=1) {
                 int w, s, a, d,l=0;
                 boolean tj1, tj2;
-                int smk = 0;
+                 smk = 0;
                 for (int i = 1; i < 1024; i++) {
                     Building neighboru = Vars.world.build(X, Y);
 //                        System.out.println("方块是：" + neighboru);
@@ -542,10 +542,15 @@ public class NC_power extends NuclearReactor {
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
                 this.heat += fullness * NC_power.this.heating * Math.min(this.delta(), 4.0F);
-
+                double w=Math.pow(smk*3,1.0/1.2);
+                if (smk==0){
+                    w=0;
+                    smk=0;
+                }
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
-                if (this.timer(NC_power.this.timerFuel, NC_power.this.itemDuration / (this.timeScale))) {
+                if (this.timer( (NC_power.this.timerFuel), (float) (NC_power.this.itemDuration-Math.pow(DWS*5,1.0/1.5)+w / (this.timeScale)))) {
                     this.consume();
+                    smk=0;
                     if (NC_power.this.outputItems != null) {
                         for(ItemStack output : NC_power.this.outputItems) {
                             for(int i = 0; i < output.amount; ++i) {
