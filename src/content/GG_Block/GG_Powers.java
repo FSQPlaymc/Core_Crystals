@@ -1,6 +1,7 @@
 package content.GG_Block;
 
 import api.block.power.GG_ConsumeGenerator;
+import api.block.power.NC_change_power;
 import api.block.power.NC_power;
 import arc.graphics.Color;
 import content.GGItems;
@@ -64,7 +65,7 @@ public class GG_Powers {
             powerProduction = 18/6f;
             consumeItem(GGItems.Sijingti,1);
         }};
-        hefanyingdui=new NuclearReactor("核反应堆"){{
+        hefanyingdui=new NC_change_power("核反应堆"){{
             requirements(Category.power, with(Items.lead, 300, Items.silicon, 200, Items.graphite, 150, Items.thorium, 150, Items.metaglass, 50,GGItems.TanNaMiHeXing,200));
             ambientSound = Sounds.loopThoriumReactor;
             ambientSoundVolume = 0.74f;
