@@ -91,7 +91,7 @@ public class NC_power extends NuclearReactor {
     private int factoryY = 0;
     private int checkX;
     private int DWS,smk;//单元数
-    private float SQQ;
+    private float SQQ,H;
     private float fare;
     private float xiaolu =0;//冷却量
     private int checkY;
@@ -542,16 +542,11 @@ public class NC_power extends NuclearReactor {
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
                 this.heat += fullness * NC_power.this.heating * Math.min(this.delta(), 4.0F);
-                double w=Math.pow(smk*30,1.0/1.2),H=Math.pow(DWS*30,1.0/1.5);
-                if (smk==0){
-                    w=0;
-                    smk=0;
-                }
+                double w=smk*30;
                 System.out.println("减少燃烧时间"+H);
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
                 if (this.timer( (NC_power.this.timerFuel), (float) (NC_power.this.itemDuration-H+w / (this.timeScale)))) {
                     this.consume();
-                    smk=0;
                     if (NC_power.this.outputItems != null) {
                         for(ItemStack output : NC_power.this.outputItems) {
                             for(int i = 0; i < output.amount; ++i) {
@@ -603,10 +598,19 @@ public class NC_power extends NuclearReactor {
             }
             if (timer(UPDATE_TIMER, UPDATE_INTERVAL)) {
                 // 定时调用 jance() 方法
+                smk=0;
                 System.out.println("开始\\----------------------------------------------------------");
                 jance();
                 //System.out.println("数量："+fuel);
                 System.out.println(heat);
+                if (DWS>0){
+                    if (DWS<=15){
+                        H=DWS*20;
+                    }else {
+                       H=300;
+                    }
+                    if (DWS>15){H+= (float) Math.pow((DWS-15)*20,1.0/1.5);}
+                }
             }
         }
         public void dumpOutputs() {
