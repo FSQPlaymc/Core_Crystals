@@ -110,7 +110,7 @@ public class GGNewPT {
             // 建造需求
             requirements(Category.turret, with(
                     GGItems.itemCZzw,10,
-                    mindustry.content.Items.copper,9
+                    Items.copper,9
             ));
 
             // 弹药配置
@@ -147,7 +147,7 @@ public class GGNewPT {
             shake = 4f;                  // 震动强度
             size = 4;                    // 尺寸
             shootCone = 2f;              // 射击散布角度
-            shootSound = Sounds.railgun; // 射击音效
+            shootSound = Sounds.rain; // 射击音效
             unitSort = UnitSorts.strongest; // 单位排序方式
             envEnabled |= Env.space;     // 可用环境(太空)
 

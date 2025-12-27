@@ -79,20 +79,19 @@ public class NC_power extends NuclearReactor {
         this.explosionRadius = 19+DWS*3;    // 爆炸范围（半径）
         this.explosionDamage = 5000+500*DWS;  // 爆炸伤害值
         this.explodeEffect = Fx.reactorExplosion;
-        this.explodeSound = Sounds.explosionbig;
+        this.explodeSound = Sounds.explosionReactor;//音效
         // 添加基础发电量设置（关键！）
         this.powerProduction = 100f; // 示例值，可根据平衡调整
     }
     // 定义计时器ID（可自定义，只要唯一即可）
     private static final int UPDATE_TIMER = 1;
     // 定义调用间隔（单位： ticks，60ticks = 1秒）
-    private static final float UPDATE_INTERVAL = 90f; // 1秒调用一次
+    private static final float UPDATE_INTERVAL = 60f; // 1秒调用一次
     private int factoryX,CV= 0;
     private int factoryY = 0;
-    private int[][] asdf;
     private int checkX;
-    private int DWS;//单元数
-    private float SQQ;
+    private int DWS,smk;//单元数
+    private float SQQ,H;
     private float fare;
     private float xiaolu =0;//冷却量
     private int checkY;
@@ -232,6 +231,7 @@ public class NC_power extends NuclearReactor {
             FS=FS+1;
 
             // 再创建新数组
+            int[][] asdf;
             asdf =new int[FS][FL];
             DWS=0;
             SQQ=0f;
@@ -246,7 +246,7 @@ public class NC_power extends NuclearReactor {
             if (FL!=1&&FS!=1) {
                 int w, s, a, d,l=0;
                 boolean tj1, tj2;
-                int smk = 0;
+                 smk = 0;
                 for (int i = 1; i < 1024; i++) {
                     Building neighboru = Vars.world.build(X, Y);
 //                        System.out.println("方块是：" + neighboru);
@@ -542,9 +542,10 @@ public class NC_power extends NuclearReactor {
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
                 this.heat += fullness * NC_power.this.heating * Math.min(this.delta(), 4.0F);
-
+                double w=smk*30;
+                System.out.println("减少燃烧时间"+H);
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
-                if (this.timer(NC_power.this.timerFuel, NC_power.this.itemDuration / (this.timeScale))) {
+                if (this.timer( (NC_power.this.timerFuel), (float) (NC_power.this.itemDuration-H+w / (this.timeScale)))) {
                     this.consume();
                     if (NC_power.this.outputItems != null) {
                         for(ItemStack output : NC_power.this.outputItems) {
@@ -597,10 +598,19 @@ public class NC_power extends NuclearReactor {
             }
             if (timer(UPDATE_TIMER, UPDATE_INTERVAL)) {
                 // 定时调用 jance() 方法
+                smk=0;
                 System.out.println("开始\\----------------------------------------------------------");
                 jance();
                 //System.out.println("数量："+fuel);
                 System.out.println(heat);
+                if (DWS>0){
+                    if (DWS<=15){
+                        H=DWS*20;
+                    }else {
+                       H=300;
+                    }
+                    if (DWS>15){H+= (float) Math.pow((DWS-15)*20,1.0/1.5);}
+                }
             }
         }
         public void dumpOutputs() {

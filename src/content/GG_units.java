@@ -62,7 +62,7 @@ public class GG_units
                     this.recoil = 4.0F;//显示的
                     this.x = 0.0F;
                     this.y=3.3f;
-                    this.shootSound = Sounds.flame;
+                    this.shootSound = Sounds.shootQuad;
                 this.bullet = new ArtilleryBulletType(3.0F, 60.0F) {
                     {
                         this.shootEffect = new MultiEffect(new Effect[]{Fx.shootSmallColor, new Effect(9.0F, (e) -> {

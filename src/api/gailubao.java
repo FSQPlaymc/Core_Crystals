@@ -104,7 +104,7 @@ public class gailubao extends Mod {
                 kill();
 
                 // 播放音效
-                Sounds.explosionbig.at(this);
+                Sounds.explosion.at(this);
 
                 // 日志记录（调试用）
                 Log.info("Factory exploded at (@, @)", tile.x, tile.y);
