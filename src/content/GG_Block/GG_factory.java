@@ -1,5 +1,6 @@
 package content.GG_Block;
 
+import api.block.ffactory.MFactory_2;
 import api.factory;
 import arc.graphics.Color;
 import content.GGItems;
@@ -25,6 +26,7 @@ import static mindustry.type.ItemStack.with;
 
 public class GG_factory {
     public static AttributeCrafter cultivator;
+    public static MFactory_2 aaaaaaaaa;
     public static factory SmallGlassKiln,plastaniumYsji;
     public static factory SGfacto;
     public static factory surgeAlloyF;
@@ -32,6 +34,11 @@ public class GG_factory {
     public static GenericCrafter ksbl,sitichun,Ctiqu,Sichunghua,pulverizer,electrolyzer,boli,tuduizhuang,SYoilY,MKhejin;
     public static Separator separator,Bigfenli;
     public static void factorys(){
+        aaaaaaaaa=new MFactory_2("aaaaawd"){{
+            size=2;
+            requirements(Category.crafting,with(Items.surgeAlloy,25,Items.plastanium,30,Items.metaglass,40,Items.thorium,30,Items.graphite,50));
+            addInput(Items.copper,2,0,Items.lead,2,1);
+        }};
         MKhejin=new GenericCrafter("模块化合金冶炼炉"){{
             size=5;
             craftTime=80f;
