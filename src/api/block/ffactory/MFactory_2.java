@@ -28,6 +28,7 @@ import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValue;
 import mindustry.world.meta.StatValues;
 
+import static mindustry.Vars.content;
 import static mindustry.world.meta.StatValues.withTooltip;
 
 public class MFactory_2 extends AdaptCrafter {
@@ -35,6 +36,7 @@ public class MFactory_2 extends AdaptCrafter {
     public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
     public MFactory_2(String name) {
         super(name);
+        this.dumpTime=4;
         this.rotate = false;//贴图不转
         this.canMirror=true;//是否镜像
         consume(new ConsumeRecipe(MFactory_2.RecipeGenericCrafterBuild_2::getRecipe, MFactory_2.RecipeGenericCrafterBuild_2::getDisplayRecipe));
@@ -290,13 +292,11 @@ public class MFactory_2 extends AdaptCrafter {
         public void dumpOutputs() {
             for (int i = 0; i < recipes.size; i++) {
                 for (ItemStack outputs : recipes.get(i).outputItem) {
-                    int a=0;
-                    if (outputs != null && this.timer(MFactory_2.this.timerDump, (float) MFactory_2.this.dumpTime / this.timeScale)) {
-                        this.dump(outputs.item);
+                    boolean m=false;
+                    if (outputs != null ) {
+                        m=this.dump(outputs.item);
                     }
-                    a++;
-                    if (a>itemCapacity)break;
-                    System.out.println("配方："+i);
+                    System.out.println("配方："+i+"__,__"+outputs.item+m);
                 }
                 for (LiquidStack outLiquids:recipes.get(i).outputLiquid){
                     if (outLiquids != null) {
@@ -308,5 +308,14 @@ public class MFactory_2 extends AdaptCrafter {
                 }
             }
         }
+        public boolean dump_2(Item todump) {
+            System.out.println("aaa"+todump);
+            System.out.println("!block.hasItems"+!block.hasItems);
+            System.out.println("items.total() == 0"+(items.total() == 0));
+            System.out.println("linkProximityMap.size == 0"+(linkProximityMap.size == 0));
+            System.out.println("(todump != null && !items.has(todump)"+(todump != null && !items.has(todump)));
+            return false;
+        }
+
     }
 }
