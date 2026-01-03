@@ -12,6 +12,8 @@ import arc.struct.Seq;
 import arc.util.Scaling;
 import arc.util.Strings;
 import arc.util.Time;
+import content.GGItems;
+import mindustry.content.Items;
 import mindustry.core.UI;
 import mindustry.ctype.UnlockableContent;
 import mindustry.gen.Building;
@@ -36,6 +38,7 @@ public class MFactory_2 extends AdaptCrafter {
         this.rotate = false;//贴图不转
         this.canMirror=true;//是否镜像
         consume(new ConsumeRecipe(MFactory_2.RecipeGenericCrafterBuild_2::getRecipe, MFactory_2.RecipeGenericCrafterBuild_2::getDisplayRecipe));
+        outputItem=new ItemStack(GGItems.站位,0);
     }
 
     public void addInput(Object...objects) {
@@ -73,21 +76,21 @@ public class MFactory_2 extends AdaptCrafter {
                                 row.image(Icon.right).size(32f).padLeft(8f).padRight(12f);
                                 recipe.outputItem.each(stack -> row.add(display(stack.item, stack.amount, craftTime / recipe.boostScl)));
                                 recipe.outputLiquid.each(stack -> row.add(StatValues.displayLiquid(stack.liquid, stack.amount * Time.toSeconds, true)));
-                                if (outputItems != null) {
-                                    for (var stack: outputItems){
-                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
-                                    }
-                                }
-                                if (outputLiquids != null) {
-                                    for (var stack: outputLiquids){
-                                        row.add(display(stack.liquid, stack.amount * craftTime * recipe.craftScl, craftTime / recipe.boostScl));
-                                    }
-                                }
-                                if (outputPayloads != null) {
-                                    for (var stack: outputPayloads){
-                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
-                                    }
-                                }
+//                                if (outputItems != null) {
+//                                    for (var stack: outputItems){
+//                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
+//                                    }
+//                                }
+//                                if (outputLiquids != null) {
+//                                    for (var stack: outputLiquids){
+//                                        row.add(display(stack.liquid, stack.amount * craftTime * recipe.craftScl, craftTime / recipe.boostScl));
+//                                    }
+//                                }
+//                                if (outputPayloads != null) {
+//                                    for (var stack: outputPayloads){
+//                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
+//                                    }
+//                                }
                             }).growX();
                         });
                     }).fillX();
@@ -287,9 +290,13 @@ public class MFactory_2 extends AdaptCrafter {
         public void dumpOutputs() {
             for (int i = 0; i < recipes.size; i++) {
                 for (ItemStack outputs : recipes.get(i).outputItem) {
+                    int a=0;
                     if (outputs != null && this.timer(MFactory_2.this.timerDump, (float) MFactory_2.this.dumpTime / this.timeScale)) {
                         this.dump(outputs.item);
                     }
+                    a++;
+                    if (a>itemCapacity)break;
+                    System.out.println("配方："+i);
                 }
                 for (LiquidStack outLiquids:recipes.get(i).outputLiquid){
                     if (outLiquids != null) {

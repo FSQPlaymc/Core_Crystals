@@ -9,7 +9,7 @@ import mindustry.type.Item;
 import static mindustry.content.Items.*;
 
 public class GGItems {
-    public static Item zeta;
+    public static Item zeta,站位;
     public static Item itemCZzw;
     public static Item Sijingti;
     public static Item Sifenmo;
@@ -20,6 +20,7 @@ public class GGItems {
     public static final Seq<Item> GGItemsj = new Seq();
     public GGItems(){}
     public static void aloud(){
+        站位=new Item("占位");
         Sifenmo = new Item("sifenmo", Color.valueOf("031817")){{
             this.hardness=3;
         }};

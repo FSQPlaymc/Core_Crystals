@@ -36,6 +36,7 @@ public class GG_factory {
     public static void factorys(){
         aaaaaaaaa=new MFactory_2("aaaaawd"){{
             size=2;
+            hasItems=hasLiquids=true;
             itemCapacity=10;
             requirements(Category.crafting,with(Items.surgeAlloy,25,Items.plastanium,30,Items.metaglass,40,Items.thorium,30,Items.graphite,50));
             addInput(Items.copper,2,0,Items.lead,2,1);
