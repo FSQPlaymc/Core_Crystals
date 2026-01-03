@@ -3,6 +3,7 @@ package api.block.ffactory;
 import api.block.AdaptCrafter;
 import api.block.ConsumeRecipe;
 import api.block.ffactory.Recipe_2;
+import api.block.power.NC_power;
 import arc.math.Mathf;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Stack;
@@ -29,6 +30,7 @@ import static mindustry.world.meta.StatValues.withTooltip;
 
 public class MFactory_2 extends AdaptCrafter {
     public Seq<Recipe_2> recipes = new Seq<>();
+    public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
     public MFactory_2(String name) {
         super(name);
         this.rotate = false;//贴图不转
@@ -152,7 +154,7 @@ public class MFactory_2 extends AdaptCrafter {
         }
 
         public void updateRecipe() {
-            for (int i = 0; i < recipes.size; i++) {
+            for (int i = 0; i < recipes.size; i++) {//是指配方数
                 boolean valid = true;
 
                 for (ItemStack input : recipes.get(i).inputItem) {
@@ -215,6 +217,7 @@ public class MFactory_2 extends AdaptCrafter {
         @Override
         public void updateTile() {
             if (!validRecipe()) updateRecipe();
+            dumpOutputs();
             super.updateTile();
         }
 
@@ -231,7 +234,10 @@ public class MFactory_2 extends AdaptCrafter {
             if (getRecipe() == null) return;
 
             for (ItemStack stack:recipes.get(recipeIndex).outputItem){
-            produced(stack.item,stack.amount);
+                if (stack.item!=null) {
+                    System.out.println(stack.item+","+stack.amount);
+                    new_offload(stack.item, stack.amount);
+                }
             }
             if(outputItems != null){
                 for(var output : outputItems){
@@ -266,11 +272,34 @@ public class MFactory_2 extends AdaptCrafter {
                 Building target = pair[0];
                 Building source = pair[1];
                 if (target.acceptItem(source, item) && canDump(target, item)) {
-                    target.handleItem(source, item);
+                    for (int j=0;j<amount;j++) {
+                        target.handleItem(source, item);
+                    }
                     return;
                 }
             }
+            System.out.print("调用了a"+item);
+            for (int i=0;i<amount;i++){
             handleItem(this, item);
+            System.out.print("调用了"+i);
+            }
+        }
+        public void dumpOutputs() {
+            for (int i = 0; i < recipes.size; i++) {
+                for (ItemStack outputs : recipes.get(i).outputItem) {
+                    if (outputs != null && this.timer(MFactory_2.this.timerDump, (float) MFactory_2.this.dumpTime / this.timeScale)) {
+                        this.dump(outputs.item);
+                    }
+                }
+                for (LiquidStack outLiquids:recipes.get(i).outputLiquid){
+                    if (outLiquids != null) {
+                        if (AutomaticOutPutLiquids){
+                            int dir = MFactory_2.this.liquidOutputDirections.length > i ? MFactory_2.this.liquidOutputDirections[i] : -1;
+                            this.dumpLiquid(outLiquids.liquid, 2.0F, dir);
+                        }
+                    }
+                }
+            }
         }
     }
 }
