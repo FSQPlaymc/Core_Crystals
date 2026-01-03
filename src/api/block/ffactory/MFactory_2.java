@@ -13,7 +13,9 @@ import arc.util.Strings;
 import arc.util.Time;
 import mindustry.core.UI;
 import mindustry.ctype.UnlockableContent;
+import mindustry.gen.Building;
 import mindustry.gen.Icon;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.type.PayloadStack;
@@ -196,6 +198,12 @@ public class MFactory_2 extends AdaptCrafter {
                 }
             }
 
+            //for (ItemStack output : recipes.get(recipeIndex).outputItem) {
+            //  if (items.get(output.item) < output.amount) {
+            //      return false;
+            //  }
+            //}
+
             for (PayloadStack input : recipes.get(recipeIndex).inputPayload) {
                 if (getPayloads().get(input.item) < input.amount) {
                     return false;
@@ -222,6 +230,9 @@ public class MFactory_2 extends AdaptCrafter {
             consume();
             if (getRecipe() == null) return;
 
+            for (ItemStack stack:recipes.get(recipeIndex).outputItem){
+            produced(stack.item,stack.amount);
+            }
             if(outputItems != null){
                 for(var output : outputItems){
                     for(int i = 0; i < Mathf.round(output.amount * getRecipe().craftScl); i++){
@@ -243,6 +254,23 @@ public class MFactory_2 extends AdaptCrafter {
             progress %= 1f;
 
             updateRecipe();
+        }
+
+        public void new_offload(Item item ,int amount) {
+            produced(item, amount);
+            int dump = dumpIndex;
+            for (int i = 0; i < linkProximityMap.size; i++) {
+                incrementDumpIndex(linkProximityMap.size);
+                int idx = (i + dump) % linkProximityMap.size;
+                Building[] pair = linkProximityMap.get(idx);
+                Building target = pair[0];
+                Building source = pair[1];
+                if (target.acceptItem(source, item) && canDump(target, item)) {
+                    target.handleItem(source, item);
+                    return;
+                }
+            }
+            handleItem(this, item);
         }
     }
 }
