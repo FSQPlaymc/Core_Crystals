@@ -2,9 +2,6 @@ package api.block.ffactory;
 
 import api.block.AdaptCrafter;
 import api.block.ConsumeRecipe;
-import api.block.ffactory.Recipe_2;
-import api.block.power.NC_power;
-import arc.func.Floatf;
 import arc.math.Mathf;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Stack;
@@ -13,8 +10,6 @@ import arc.struct.Seq;
 import arc.util.Scaling;
 import arc.util.Strings;
 import arc.util.Time;
-import content.GGItems;
-import mindustry.content.Items;
 import mindustry.core.UI;
 import mindustry.ctype.UnlockableContent;
 import mindustry.gen.Building;
@@ -28,16 +23,14 @@ import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValue;
 import mindustry.world.meta.StatValues;
-import mindustry.world.consumers.*;
 
-import static mindustry.Vars.content;
 import static mindustry.world.meta.StatValues.withTooltip;
 
 public class MFactory_2 extends AdaptCrafter {
     public Seq<Recipe_2> recipes = new Seq<>();
     public boolean HaveOutputItems=true;//是否有物品输出
     public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
-    public Floatf<Building> multiplier_2 = b -> 1f;
+    //public Floatf<Building> multiplier_2 = b -> 1f;
     public MFactory_2(String name) {
         super(name);
         this.dumpTime=4;
@@ -85,21 +78,21 @@ public class MFactory_2 extends AdaptCrafter {
                                 row.image(Icon.right).size(32f).padLeft(8f).padRight(12f);
                                 recipe.outputItem.each(stack -> row.add(display(stack.item, stack.amount, craftTime / recipe.boostScl)));
                                 recipe.outputLiquid.each(stack -> row.add(StatValues.displayLiquid(stack.liquid, stack.amount * Time.toSeconds, true)));
-//                                if (outputItems != null) {
-//                                    for (var stack: outputItems){
-//                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
-//                                    }
-//                                }
-//                                if (outputLiquids != null) {
-//                                    for (var stack: outputLiquids){
-//                                        row.add(display(stack.liquid, stack.amount * craftTime * recipe.craftScl, craftTime / recipe.boostScl));
-//                                    }
-//                                }
-//                                if (outputPayloads != null) {
-//                                    for (var stack: outputPayloads){
-//                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
-//                                    }
-//                                }
+                                if (outputItems != null) {
+                                    for (var stack: outputItems){
+                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
+                                    }
+                                }
+                                if (outputLiquids != null) {
+                                    for (var stack: outputLiquids){
+                                        row.add(display(stack.liquid, stack.amount * craftTime * recipe.craftScl, craftTime / recipe.boostScl));
+                                    }
+                                }
+                                if (outputPayloads != null) {
+                                    for (var stack: outputPayloads){
+                                        row.add(display(stack.item, Mathf.round(stack.amount * recipe.craftScl), craftTime / recipe.boostScl));
+                                    }
+                                }
                             }).growX();
                         });
                     }).fillX();
@@ -230,7 +223,7 @@ public class MFactory_2 extends AdaptCrafter {
         public void updateTile() {
             if (!validRecipe()) updateRecipe();
             Recipe_output_Liquid();
-            dumpOutputs();
+            if (timer(timerDump, dumpTime / timeScale)) dumpOutputs();
             super.updateTile();
         }
 
@@ -291,16 +284,17 @@ public class MFactory_2 extends AdaptCrafter {
                     return;
                 }
             }
-            System.out.print("调用了a"+item);
+            //System.out.print("调用了a"+item);
             for (int i=0;i<amount;i++){
             handleItem(this, item);
-            System.out.print("调用了"+i);
+            //System.out.print("调用了"+i);
             }
         }
         public void dumpOutputs() {
             for (int i = 0; i < recipes.size; i++) {
                 for (ItemStack outputs : recipes.get(i).outputItem) {
                     if (outputs != null ) {
+                        dump(outputs.item);
                     }
                 }
                 for (LiquidStack outLiquids:recipes.get(i).outputLiquid){
@@ -312,14 +306,6 @@ public class MFactory_2 extends AdaptCrafter {
                     }
                 }
             }
-        }
-        public boolean dump_2(Item todump) {
-            System.out.println("aaa"+todump);
-            System.out.println("!block.hasItems"+!block.hasItems);
-            System.out.println("items.total() == 0"+(items.total() == 0));
-            System.out.println("linkProximityMap.size == 0"+(linkProximityMap.size == 0));
-            System.out.println("(todump != null && !items.has(todump)"+(todump != null && !items.has(todump)));
-            return false;
         }
         public void Recipe_output_Liquid(){
             if (recipeIndex>-1){
