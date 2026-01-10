@@ -36,10 +36,12 @@ public class GG_factory {
     public static void factorys(){
         aaaaaaaaa=new MFactory_2("aaaaawd"){{
             size=2;
+            outputsLiquid=true;
             hasItems=hasLiquids=true;
             itemCapacity=10;
+            liquidCapacity=10f;
             requirements(Category.crafting,with(Items.surgeAlloy,25,Items.plastanium,30,Items.metaglass,40,Items.thorium,30,Items.graphite,50));
-            addInput(Items.copper,2,0,Items.lead,2,1);
+            addInput(Items.copper,2,0,Items.lead,2,1,Liquids.water,3/2f,0,Liquids.ozone,1/2f,1,Liquids.oil,0.5f,1);
             addInput(Items.coal,1,0,Items.beryllium,1,1);
         }};
         MKhejin=new GenericCrafter("模块化合金冶炼炉"){{

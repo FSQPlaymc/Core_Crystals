@@ -35,6 +35,7 @@ import static mindustry.world.meta.StatValues.withTooltip;
 
 public class MFactory_2 extends AdaptCrafter {
     public Seq<Recipe_2> recipes = new Seq<>();
+    public boolean HaveOutputItems=true;//是否有物品输出
     public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
     public Floatf<Building> multiplier_2 = b -> 1f;
     public MFactory_2(String name) {
@@ -43,13 +44,16 @@ public class MFactory_2 extends AdaptCrafter {
         this.rotate = false;//贴图不转
         this.canMirror=true;//是否镜像
         consume(new ConsumeRecipe(MFactory_2.RecipeGenericCrafterBuild_2::getRecipe, MFactory_2.RecipeGenericCrafterBuild_2::getDisplayRecipe));
-        outputItem=new ItemStack(GGItems.站位,0);
     }
 
     public void addInput(Object...objects) {
         Recipe_2 recipe = new Recipe_2(objects);
         recipes.add((Recipe_2) recipe);
     }
+    public boolean outputsItems(){//返回true传送带与工厂有贴图
+        return HaveOutputItems;
+    }
+    public boolean outputsLiquid = false;//返回true液体管道与工厂有贴图
 
     @Override
     public void setStats() {
@@ -208,11 +212,11 @@ public class MFactory_2 extends AdaptCrafter {
                 }
             }
 
-            //for (ItemStack output : recipes.get(recipeIndex).outputItem) {
-            //  if (items.get(output.item) < output.amount) {
-            //      return false;
-            //  }
-            //}
+            for (ItemStack output : recipes.get(recipeIndex).outputItem) {
+              if (items.get(output.item) < output.amount) {
+                  return false;
+              }
+            }
 
             for (PayloadStack input : recipes.get(recipeIndex).inputPayload) {
                 if (getPayloads().get(input.item) < input.amount) {
@@ -273,7 +277,7 @@ public class MFactory_2 extends AdaptCrafter {
 
         public void new_offload(Item item ,int amount) {
             produced(item, amount);
-            int dump = dumpIndex;
+            int dump = dumpIndex,a=amount,b;
             for (int i = 0; i < linkProximityMap.size; i++) {
                 incrementDumpIndex(linkProximityMap.size);
                 int idx = (i + dump) % linkProximityMap.size;
@@ -320,9 +324,10 @@ public class MFactory_2 extends AdaptCrafter {
         public void Recipe_output_Liquid(){
             if (recipeIndex>-1){
                 if (recipes.get(recipeIndex).outputLiquid != null){
+                    float inc = getProgressIncrease(1f);
                     for (LiquidStack stack:recipes.get(recipeIndex).outputLiquid){
-                        handleLiquid(this,stack.liquid,stack.amount * this.edelta() * multiplier_2.get(this));
-                    }
+                        handleLiquid(this,stack.liquid,Math.min(stack.amount * inc, liquidCapacity - liquids.get(stack.liquid)));
+                    }//stack.amount * this.edelta() * multiplier_2.get(this)
                 }
             }
         }
