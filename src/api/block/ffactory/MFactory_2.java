@@ -4,6 +4,7 @@ import api.block.AdaptCrafter;
 import api.block.ConsumeRecipe;
 import api.block.ffactory.Recipe_2;
 import api.block.power.NC_power;
+import arc.func.Floatf;
 import arc.math.Mathf;
 import arc.scene.ui.Image;
 import arc.scene.ui.layout.Stack;
@@ -27,6 +28,7 @@ import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValue;
 import mindustry.world.meta.StatValues;
+import mindustry.world.consumers.*;
 
 import static mindustry.Vars.content;
 import static mindustry.world.meta.StatValues.withTooltip;
@@ -34,6 +36,7 @@ import static mindustry.world.meta.StatValues.withTooltip;
 public class MFactory_2 extends AdaptCrafter {
     public Seq<Recipe_2> recipes = new Seq<>();
     public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
+    public Floatf<Building> multiplier_2 = b -> 1f;
     public MFactory_2(String name) {
         super(name);
         this.dumpTime=4;
@@ -222,6 +225,7 @@ public class MFactory_2 extends AdaptCrafter {
         @Override
         public void updateTile() {
             if (!validRecipe()) updateRecipe();
+            Recipe_output_Liquid();
             dumpOutputs();
             super.updateTile();
         }
@@ -292,11 +296,8 @@ public class MFactory_2 extends AdaptCrafter {
         public void dumpOutputs() {
             for (int i = 0; i < recipes.size; i++) {
                 for (ItemStack outputs : recipes.get(i).outputItem) {
-                    boolean m=false;
                     if (outputs != null ) {
-                        m=this.dump(outputs.item);
                     }
-                    System.out.println("配方："+i+"__,__"+outputs.item+m);
                 }
                 for (LiquidStack outLiquids:recipes.get(i).outputLiquid){
                     if (outLiquids != null) {
@@ -315,6 +316,15 @@ public class MFactory_2 extends AdaptCrafter {
             System.out.println("linkProximityMap.size == 0"+(linkProximityMap.size == 0));
             System.out.println("(todump != null && !items.has(todump)"+(todump != null && !items.has(todump)));
             return false;
+        }
+        public void Recipe_output_Liquid(){
+            if (recipeIndex>-1){
+                if (recipes.get(recipeIndex).outputLiquid != null){
+                    for (LiquidStack stack:recipes.get(recipeIndex).outputLiquid){
+                        handleLiquid(this,stack.liquid,stack.amount * this.edelta() * multiplier_2.get(this));
+                    }
+                }
+            }
         }
 
     }
