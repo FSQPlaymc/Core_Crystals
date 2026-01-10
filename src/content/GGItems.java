@@ -3,7 +3,6 @@ package content;
 import arc.Core;
 import arc.graphics.Color;
 import arc.struct.Seq;
-import mindustry.content.Items;
 import mindustry.type.Item;
 
 import static mindustry.content.Items.*;
@@ -20,9 +19,6 @@ public class GGItems {
     public static final Seq<Item> GGItemsj = new Seq();
     public GGItems(){}
     public static void aloud(){
-        Sifenmo = new Item("sifenmo", Color.valueOf("031817")){{
-            this.hardness=3;
-        }};
         Sijingti = new Item("guijingti", Color.valueOf("031817")) {{
             this.hardness = 3;
             this.explosiveness = 0.0F;//爆炸 = 0.0F;可燃性
