@@ -329,7 +329,7 @@ public class MFactory_2 extends AdaptCrafter {
             }
         }
         public void Recipe_output_Liquid(){
-            if (recipeIndex>-1){
+            if (recipeIndex>-1 && shouldConsume()){
                 if (recipes.get(recipeIndex).outputLiquid != null){
                     float inc = getProgressIncrease(1f);
                     for (LiquidStack stack:recipes.get(recipeIndex).outputLiquid){
