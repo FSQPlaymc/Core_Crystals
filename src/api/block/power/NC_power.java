@@ -90,7 +90,7 @@ public class NC_power extends NuclearReactor {
     private int factoryX,CV= 0;
     private int factoryY = 0;
     private int checkX;
-    private int DWS,smk;//单元数
+    private int DWS,smk,jsmk;//单元数,石墨块
     private float SQQ,H;
     private float fare;
     private float xiaolu =0;//冷却量
@@ -307,9 +307,11 @@ public class NC_power extends NuclearReactor {
                                     s = asdf[S + 1][L];
                                     a = asdf[S][L - 1];
                                     d = asdf[S][L + 1];
-                                    if (d == 80 || a == 80 || s == 80 || w == 80) asdf[S][L] = 91;
+                                    if (d == 80 || a == 80 || s == 80 || w == 80) {
+                                        jsmk++;
+                                        asdf[S][L] = 91;
+                                    }
                                 }
-                                cx=cy=null;
                             }
                             //System.out.println("数组跳出" + i);
                             break;
@@ -542,7 +544,7 @@ public class NC_power extends NuclearReactor {
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
                 this.heat += fullness * NC_power.this.heating * Math.min(this.delta(), 4.0F);
-                double w=smk*30;
+                double w=jsmk*30;
                 System.out.println("减少燃烧时间"+H);
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
                 if (this.timer( (NC_power.this.timerFuel), (float) (NC_power.this.itemDuration-H+w / (this.timeScale)))) {
@@ -598,7 +600,7 @@ public class NC_power extends NuclearReactor {
             }
             if (timer(UPDATE_TIMER, UPDATE_INTERVAL)) {
                 // 定时调用 jance() 方法
-                smk=0;
+                smk=jsmk=0;
                 ////System.out.println("开始\\----------------------------------------------------------");
                 jance();
                 ////System.out.println("数量："+fuel);

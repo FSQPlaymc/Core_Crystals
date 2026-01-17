@@ -29,7 +29,7 @@ import static mindustry.world.meta.StatValues.withTooltip;
 public class MFactory_2 extends AdaptCrafter {
     public Seq<Recipe_2> recipes = new Seq<>();
     public boolean HaveOutputItems=true;//是否有物品输出
-    public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
+    public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出.返回true液体管道与工厂有贴图
     public static int P_recipeIndex;
     //public Floatf<Building> multiplier_2 = b -> 1f;
     public MFactory_2(String name) {
@@ -47,7 +47,6 @@ public class MFactory_2 extends AdaptCrafter {
     public boolean outputsItems(){//返回true传送带与工厂有贴图
         return HaveOutputItems;
     }
-    public boolean outputsLiquid = false;//返回true液体管道与工厂有贴图
 
     @Override
     public void setStats() {
@@ -149,6 +148,7 @@ public class MFactory_2 extends AdaptCrafter {
     @Override
     public void init() {
         super.init();
+        outputsLiquid = AutomaticOutPutLiquids;
         recipes.each(recipe -> {
             recipe.inputItem.each(stack -> itemFilter[stack.item.id] = true);
             recipe.inputLiquid.each(stack -> liquidFilter[stack.liquid.id] = true);//设置过滤判断需要物品或流体
