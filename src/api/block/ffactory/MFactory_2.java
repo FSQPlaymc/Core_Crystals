@@ -239,7 +239,7 @@ public class MFactory_2 extends AdaptCrafter {
             consume();
             if (getRecipe() == null) return;
 
-            for (ItemStack stack:recipes.get(recipeIndex).outputItem){
+            for (var stack:recipes.get(recipeIndex).outputItem){
                 if (stack.item!=null) {
                     System.out.println(stack.item+","+stack.amount);
                     new_offload(stack.item, stack.amount);
@@ -318,5 +318,18 @@ public class MFactory_2 extends AdaptCrafter {
             }
         }
 
+        public boolean shouldConsume(){
+            if (recipeIndex>-1){
+                for (ItemStack output:recipes.get(recipeIndex).outputItem) {
+                    if (output != null) {
+                        if (items.get(output.item) + output.amount > itemCapacity) {
+                                return false;
+                        }
+                    }
+                }
+            }
+            super.shouldConsume();
+            return enabled;
+        }
     }
 }
