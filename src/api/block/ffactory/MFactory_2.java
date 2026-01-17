@@ -30,6 +30,7 @@ public class MFactory_2 extends AdaptCrafter {
     public Seq<Recipe_2> recipes = new Seq<>();
     public boolean HaveOutputItems=true;//是否有物品输出
     public boolean AutomaticOutPutLiquids=true;//流体自动向周围输出
+    public static int P_recipeIndex;
     //public Floatf<Building> multiplier_2 = b -> 1f;
     public MFactory_2(String name) {
         super(name);
@@ -54,6 +55,25 @@ public class MFactory_2 extends AdaptCrafter {
         stats.add(Stat.input, display());
         stats.remove(Stat.output);
     }
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        //set up liquid bars for liquid outputs
+        if(P_recipeIndex>-1){
+            //no need for dynamic liquid bar
+            removeBar("liquid");
+            //then display input buffer
+            for(var stack : recipes.get(P_recipeIndex).inputLiquid) {
+                if (stack!=null) addLiquidBar(stack.liquid);
+            }
+                //then display output buffer
+            for(var stack : recipes.get(P_recipeIndex).outputLiquid){
+                if (stack!=null) addLiquidBar(stack.liquid);
+            }
+        }
+    }
+
 
 
     public StatValue display() {
@@ -222,6 +242,7 @@ public class MFactory_2 extends AdaptCrafter {
         @Override
         public void updateTile() {
             if (!validRecipe()) updateRecipe();
+            P_recipeIndex=recipeIndex;
             Recipe_output_Liquid();
             if (timer(timerDump, dumpTime / timeScale)) dumpOutputs();
             super.updateTile();
