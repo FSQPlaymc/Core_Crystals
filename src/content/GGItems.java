@@ -1,5 +1,6 @@
 package content;
 
+import api.Item_void.GGItem_NC;
 import arc.Core;
 import arc.graphics.Color;
 import arc.struct.Seq;
@@ -16,9 +17,13 @@ public class GGItems {
     public static Item TanNaMiHeXing;
     public static Item zaisu;
     public static  Item hejing;
+    public static GGItem_NC U;
     public static final Seq<Item> GGItemsj = new Seq();
     public GGItems(){}
     public static void aloud(){
+        U=new GGItem_NC("U",Color.valueOf("00x000")){{
+
+        }};
         Sijingti = new Item("guijingti", Color.valueOf("031817")) {{
             this.hardness = 3;
             this.explosiveness = 0.0F;//爆炸 = 0.0F;可燃性
