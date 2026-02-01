@@ -84,7 +84,7 @@ public class GG_Powers {
             requirements(Category.power, with(Items.lead, 20, Items.silicon, 32));
             ambientSound = Sounds.loopThoriumReactor;
             ambientSoundVolume = 0.24f;
-            size=2;
+            size=1;
             outputItem=new ItemStack(Items.silicon,1);
             health = 700;
             itemDuration = 360f;

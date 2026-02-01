@@ -29,6 +29,8 @@ import java.util.Arrays;
 import static content.GG_Block.GG_walls.cs;
 
 public class NC_power extends NuclearReactor {
+    public static Thread t;
+    private static Building OutPutBuilding;
     @Nullable
     public ItemStack outputItem;
     @Nullable
@@ -127,7 +129,7 @@ public class NC_power extends NuclearReactor {
                 -> new Bar("bar.heats{{{{："+SDQ, Pal.lightOrange, () -> entitys.heat)
         );
     }
-    public class NC_powerBuid extends NuclearReactorBuild{
+    public class NC_powerBuid extends NuclearReactorBuild {
         public float SQl;
         public void jance() {
             // 获取建筑所在的主 Tile 坐标
@@ -145,31 +147,33 @@ public class NC_power extends NuclearReactor {
 
             Building neighborL = Vars.world.build(tileX - 2, tileY); // 左
             Building neighborS = Vars.world.build(tileX, tileY + 2); // 上
+            checkX=tileX;checkY=tileY;
             if (neighborL != null && neighborL.block == cs) {
                 // 邻居是 GG_walls.cs 方块
                 // 循环检测左侧N个方块
-                for (int i = 2; i <= 64; i=i+2) {
-                    checkX = tileX - i; // 左侧第i个位置
+                for (int i = 1; i <= 64; i++) {
+                    checkX = checkX - 1; // 左侧第i个位置
                     Building neighbor = Vars.world.build(checkX, tileY);
 
                     // 检查方块是否存在且为GG_walls.cs
-                    if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass||neighbor.block==GG_Powers.ffff)) {
+                    if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass)) {
                         factoryX=factoryX-1;
                         // 在这里添加对每个检测到的工厂的操作
                         // 例如：GG_walls.GG_wallsBuild factory = (GG_walls.GG_wallsBuild) neighbor;
                         // factory.doSomething();
                     } else {
-                        checkX=checkX+2;
+                        checkX=checkX+1;
                         // 遇到非工厂方块或空位置，停止检测
                         break;
                     }
                 }
             }else {
                 // 循环检测右侧N个方块
-                for (int i = 2; i <= 64; i=i+2) {
-                    checkX = tileX + i; // 左侧第i个位置
+                for (int i = 1; i <= 64; i++) {
+                    checkX = checkX + 1; // 左侧第i个位置
                     Building neighbor = Vars.world.build(checkX, tileY);
-
+                    System.out.println(checkX+","+ tileY);
+                    System.out.println(neighbor);
                     // 检查方块是否存在且为GG_walls.cs
                     if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass||neighbor.block==GG_Powers.ffff)) {
                         factoryX=factoryX+1;
@@ -177,52 +181,54 @@ public class NC_power extends NuclearReactor {
                         // 例如：GG_walls.GG_wallsBuild factory = (GG_walls.GG_wallsBuild) neighbor;
                         // factory.doSomething();
                     } else {
-                        checkX=checkX-2;
+                        checkX=checkX-1;
                         // 遇到非工厂方块或空位置，停止检测
                         break;
                     }
                 }
-            }if (neighborS != null && neighborS.block == cs) {
+            }System.out.println(neighborS);if (neighborS != null && neighborS.block == cs) {
                 // 邻居是 GG_walls.cs 方块
                 // 循环检测上侧N个方块
-                for (int i = 2; i <= 64; i=i+2) {
-                    checkY = tileY + i; // 上侧第i个位置
+                for (int i = 1; i <= 64; i++) {
+                    checkY = checkY + 1; // 上侧第i个位置
                     Building neighbor = Vars.world.build(tileX, checkY);
                     // 检查方块是否存在且为GG_walls.cs
+                    System.out.println(tileX+","+checkY);
+                    System.out.println(neighbor);
                     if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass||neighbor.block==GG_Powers.ffff)) {
                         factoryY = factoryY +1;
                         // 在这里添加对每个检测到的工厂的操作
                         // 例如：GG_walls.GG_wallsBuild factory = (GG_walls.GG_wallsBuild) neighbor;
                         // factory.doSomething();
                     } else {
-                        checkY=checkY-2;
+                        checkY=checkY-1;
                         // 遇到非工厂方块或空位置，停止检测
                         break;
                     }
                 }
             }else {
                 // 循环检测下侧N个方块
-                for (int i = 2; i <= 64; i=i+2) {
-                    checkY = tileY - i; // 下侧第i个位置
+                for (int i = 1; i <= 64; i++) {
+                    checkY = checkY - 1; // 下侧第i个位置
                     Building neighbor = Vars.world.build(tileX, checkY);
-
                     // 检查方块是否存在且为GG_walls.cs
-                    if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass||neighbor.block==GG_Powers.ffff)) {
+                    if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass)) {
                         factoryY = factoryY -1;
                         // 在这里添加对每个检测到的工厂的操作
                         // 例如：GG_walls.GG_wallsBuild factory = (GG_walls.GG_wallsBuild) neighbor;
                         // factory.doSomething();
                     } else {
-                        checkY=checkY+2;
+                        checkY=checkY+1;
                         // 遇到非工厂方块或空位置，停止检测
                         break;
                     }
                 }
             }
             int FL = 0;//宽
-            if (factoryX<0){
-                FL = factoryX*-1;}else{
-                FL =factoryX;}
+            FL=factoryX>0?factoryX:-factoryX;
+            //if (factoryX<0){
+            //    FL = factoryX*-1;}else{
+            //    FL =factoryX;}
             FL=FL+1;
             int FS = 0;//高
             if (factoryY <0){
@@ -235,6 +241,7 @@ public class NC_power extends NuclearReactor {
             asdf =new int[FS][FL];
             DWS=0;
             SQQ=0f;
+            int Minx,Miny;
             int L=0;
             int S=0;
             int X=checkX;
@@ -243,11 +250,75 @@ public class NC_power extends NuclearReactor {
             int ceshi=0;
             cx=new int[1028];
             cy=new int[1028];
+            System.out.println("??????????"+FS);
+            System.out.println("??????????"+FL);
             if (FL!=1&&FS!=1) {
-                int w, s, a, d,l=0;
+                int w, s, a, d,l=0,m=0,n=0;
                 boolean tj1, tj2;
                  smk = 0;
-                for (int i = 1; i < 1024; i++) {
+                 Minx=Math.min(tileX,checkX);
+                 Miny=Math.min(tileY,checkY);
+                 X=Minx;Y=Miny;
+                 for (int[] ab :asdf){
+                     for (int e:ab){
+                         Building neighboru = Vars.world.build(X, Y);
+                         if (neighboru != null && (neighboru.block == cs || neighboru.block == GG_walls.glass )) {
+                             asdf[n][m] = 90;
+                         }else if (neighboru != null &&neighboru.block == GG_Powers.ffff){
+                             asdf[n][m] = 99;
+                         }else if (neighboru != null && neighboru.block == GG_walls.SL) {
+                             asdf[n][m] = 1;
+                             SQQ += 0.6F;//测试用
+                             //this.heat += 1+((DWS-1)*0.8) * NC_power.this.heating * Math.min(this.delta(), 4.0F);
+                             //System.out.println(SQQ);
+                         } else if (neighboru != null && neighboru.block == GG_walls.fanying) {
+                             asdf[n][m] = 80;
+                             DWS++;
+                             //System.out.println(DWS);
+                         } else if (neighboru != null && neighboru.block == GG_walls.jansuji) {//石墨
+                             asdf[n][m] = 81;
+                             cx[ceshi]=n;
+                             cy[ceshi]=m;
+                             ceshi++;
+                         } else if (neighboru != null && neighboru.block == GG_walls.hongshi) {
+                             asdf[n][m] = 2;
+                         } else if (neighboru != null && neighboru.block == GG_walls.shiying) {
+                             asdf[n][m] = 4;
+                         } else if (neighboru != null && neighboru.block == GG_walls.qinjingshi) {
+                             asdf[n][m] = 6;
+                         } else if (neighboru != null && neighboru.block == GG_walls.ynishi) {
+                             asdf[n][m] = 8;
+                         } else if (neighboru != null && neighboru.block == GG_walls.linbin) {
+                             asdf[n][m] = 10;
+                         } else if (neighboru != null && neighboru.block == GG_walls.lubaoshi) {
+                             asdf[n][m] = 12;
+                         } else {
+                             asdf[n][m] = -1;
+                             //System.out.println("?");
+                         }
+                         m++;X++;
+                     }
+                     n++;m=0;Y++;X=Minx;
+                 }
+                 Y=Miny;n=0;
+                if (ceshi>0){
+                    for (int k=0;k<ceshi;k++){
+                        S=cx[k];
+                        L=cy[k];
+                        smk++;
+                        //System.out.println(cx);
+                        w = asdf[S - 1][L];
+                        s = asdf[S + 1][L];
+                        a = asdf[S][L - 1];
+                        d = asdf[S][L + 1];
+                        if (d == 80 || a == 80 || s == 80 || w == 80) {
+                            jsmk++;
+                            asdf[S][L] = 91;
+                        }
+                    }
+                }
+                System.out.println("数组：" + Arrays.deepToString(asdf));
+                /*for (int i = 1; i < 1024; i++) {
                     Building neighboru = Vars.world.build(X, Y);
 //                        //System.out.println("方块是：" + neighboru);
 //                        //System.out.println("FL：" + FL);
@@ -326,7 +397,7 @@ public class NC_power extends NuclearReactor {
                             break;
                         }
                     }
-                }
+                }*/
                 L = 0;
                 S = 0;
                 xiaolu = fare = 0;
@@ -368,14 +439,14 @@ public class NC_power extends NuclearReactor {
 //                            fare += ((float) ((CV + 1) * (CV + 2)) / 2) * NC_power.this.baseheat;
 //                            ////System.out.println("没问题");
 //                        }
-////                        else if (e == 81) {
-////                            smk++;
-////                            w = asdf[S - 1][L];
-////                            s = asdf[S + 1][L];
-////                            a = asdf[S][L - 1];
-////                            d = asdf[S][L + 1];
-////                            if (d == 80 || a == 80 || s == 80 || w == 80) asdf[S][L] = 91;
-////                        }
+//                        else if (e == 81) {
+//                           smk++;
+//                            w = asdf[S - 1][L];
+//                            s = asdf[S + 1][L];
+//                            a = asdf[S][L - 1];
+//                           d = asdf[S][L + 1];
+//                           if (d == 80 || a == 80 || s == 80 || w == 80) asdf[S][L] = 91;
+//                        }
 //                        L++;//宽
 //                        if (L > (FL - 1)) {
 //                            L = 0;
@@ -388,6 +459,132 @@ public class NC_power extends NuclearReactor {
 //                            }
 //                        }
 //                    }
+                for (int[] ab :asdf) {
+                    for (int e : ab) {
+                        tj1 = tj2 = false;
+                        if (m == 0 || n == 0 || m == (FL - 1) || n == (FS - 1)) {
+                            if (e == 90 || e == 99) {
+                                if (e == 99) {
+                                    l++;
+                                    if (l > 2) {
+                                        //System.out.println("出问题2s" + S);
+                                        //System.out.println("出问题2s" + L);
+                                        //System.out.println("出问题2s" + asdf[S][L]);
+                                        SDQ = 99999999;
+                                        DWS = 0;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        switch (e) {
+                            case 80: {
+                                CV = 0;
+                                w = asdf[n - 1][m];
+                                if (w == 80 || w == 81 || w == 91) CV++;
+                                s = asdf[n + 1][m];
+                                if (s == 80 || s == 81 || s == 91) CV++;
+                                a = asdf[n][m - 1];
+                                if (a == 80 || a == 81 || a == 91) CV++;
+                                d = asdf[n][m + 1];
+                                if (d == 80 || d == 81 || d == 91) CV++;
+                                xiaolu += (CV + 1) * NC_power.this.basepower;
+                                fare += ((float) ((CV + 1) * (CV + 2)) / 2) * NC_power.this.baseheat;
+                                System.out.println("没问题");
+                            }break;
+                            case 4:{//shiying
+                                w = asdf[n - 1][m];
+                                s = asdf[n + 1][m];
+                                a = asdf[n][m - 1];
+                                d = asdf[n][m + 1];
+                                if (d == 91 || w == 91 || s == 91 || a == 91) {
+                                    asdf[n][m] = 5;
+                                    tj1 = true;
+                                }
+                                if (tj1) {
+                                    SQQ += GG_walls.shiying.colod;
+                                }
+                            }break;
+                            case 2:{//hongshi
+                                w = asdf[n - 1][m];
+                                s = asdf[n + 1][m];
+                                a = asdf[n][m - 1];
+                                d = asdf[n][m + 1];
+                                if (d == 80 || w == 80 || s == 80 || a == 80) {
+                                    asdf[n][m] = 3;
+                                    tj1 = true;
+                                }
+                                if (tj1) {
+                                    SQQ += GG_walls.hongshi.colod;
+                                }
+                            }break;
+                            case 6:{//qinjingshi
+                                w = asdf[n - 1][m];
+                                s = asdf[n + 1][m];
+                                a = asdf[n][m - 1];
+                                d = asdf[n][m + 1];
+                                if (d == 80 || w == 80 || s == 80 || a == 80) {
+                                    tj1 = true;
+                                }
+                                if (d == 90 || w == 90 || s == 90 || a == 90) {
+                                    tj2 = true;
+                                }
+                                if (tj1 && tj2) {
+                                    asdf[n][m] = 7;
+                                    SQQ += GG_walls.qinjingshi.colod;
+                                }
+                            }break;
+                            case 8:{//yinshi
+                                CV = 0;
+                                w = asdf[n - 1][m];
+                                if (w == 91) CV++;
+                                s = asdf[n + 1][m];
+                                if (s == 91) CV++;
+                                a = asdf[n][m - 1];
+                                if (a == 91) CV++;
+                                d = asdf[n][m + 1];
+                                if (d == 91) CV++;
+                                if (CV > 1) {
+                                    asdf[n][m] = 9;
+                                    SQQ += GG_walls.ynishi.colod;
+                                }
+                            }break;
+                            case 10:{//linbin
+                                CV = 0;
+                                w = asdf[n - 1][m];
+                                if (w == 80) CV++;
+                                s = asdf[n + 1][m];
+                                if (s == 80) CV++;
+                                a = asdf[n][m - 1];
+                                if (a == 80) CV++;
+                                d = asdf[n][m + 1];
+                                if (d == 80) CV++;
+                                if (CV > 1) {
+                                    SQQ += GG_walls.linbin.colod;
+                                }}break;
+                            case 12:{//lubaoshi
+                                w = asdf[n - 1][m];
+                                s = asdf[n + 1][m];
+                                a = asdf[n][m - 1];
+                                d = asdf[n][m + 1];
+                                if (d == 91 || w == 91 || s == 91 || a == 91) {
+                                    tj1 = true;
+                                }
+                                if (d == 80 || w == 80 || s == 80 || a == 80) {
+                                    tj2 = true;
+                                }
+                                if (tj1 && tj2) {
+                                    //asdf[n][m] = 7;
+                                    //SQQL += GG_walls.lubaoshi.colod;
+                                    SQQ += GG_walls.lubaoshi.colod;
+                                }}break;
+                        }
+                        m++;X++;
+                    }
+                    System.out.println("循环了"+n);
+                    n++;m = 0;Y++;X = Minx;
+                }
+                /*
                 for (int i = 1; i < 1024; i++) {//第二遍
                     tj1 = tj2 = false;
                     int e = asdf[S][L];
@@ -520,14 +717,20 @@ public class NC_power extends NuclearReactor {
                         }
                     }
                 }
+                */
                 fare+=smk*NC_power.this.baseheat;
             }
             ////System.out.println("单元数"+DWS);
             factoryX=0;
             factoryY=0;
-            //if (asdf != null) {// 在创建新数组前，将旧数组引用置空
-            asdf = null; // 解除旧数组的引用，使其成为GC回收目标
-            //}
+            if (DWS>0){
+                if (DWS<=15){
+                    H=DWS*20;
+                }else {
+                    H=300;
+                }
+                if (DWS>15){H+= (float) Math.pow((DWS-15)*20,1.0/1.5);}
+            }
         }
         @Override
         public void updateTile(){
@@ -601,18 +804,16 @@ public class NC_power extends NuclearReactor {
             if (timer(UPDATE_TIMER, UPDATE_INTERVAL)) {
                 // 定时调用 jance() 方法
                 smk=jsmk=0;
+                t=new  Thread(new Runnable(){//线程调用
+                    @Override
+                    public void run() {
+                        jance();
+                    }
+                });
                 ////System.out.println("开始\\----------------------------------------------------------");
-                jance();
+                t.start();
                 ////System.out.println("数量："+fuel);
                 //System.out.println(heat);
-                if (DWS>0){
-                    if (DWS<=15){
-                        H=DWS*20;
-                    }else {
-                       H=300;
-                    }
-                    if (DWS>15){H+= (float) Math.pow((DWS-15)*20,1.0/1.5);}
-                }
             }
         }
         public void dumpOutputs() {

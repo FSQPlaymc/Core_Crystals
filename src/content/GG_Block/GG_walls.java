@@ -15,52 +15,52 @@ public class GG_walls {
     public static void walls(){
         lubaoshi=new GG_Wall("lubaoshi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
             this.colod=1.6f;
         }};
         linbin=new GG_Wall("linbin"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
             this.colod=1.6f;
         }};
         qinjingshi=new GG_Wall("qinjingshi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
             this.colod=1.2f;
         }};
         shiying=new GG_Wall("shiying"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
             this.colod=0.9f;
         }};
         ynishi=new GG_Wall("ynishi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
             this.colod=1.3f;
         }};
         hongshi= new GG_Wall("hongshi") {{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
             this.colod=0.9f;
         }};
         jansuji=new Wall("jansuji"){{
             requirements(Category.defense, ItemStack.with(Items.coal, 20,Items.copper,10));
-            size=2;}};
+            size=1;}};
         glass=new Wall("csglass"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
         }};
         fanying=new Wall("fanying"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
         }};
         cs =new Wall("cs"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
         }};
         SL =new Wall("sl"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
-            size=2;
+            size=1;
         }};
     }
 }
