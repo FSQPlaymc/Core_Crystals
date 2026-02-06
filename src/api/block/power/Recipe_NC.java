@@ -12,26 +12,34 @@ import mindustry.type.LiquidStack;
 
 public class Recipe_NC extends Recipe_2 {
     public Seq<GGItemStack> inputItem = new Seq<>();
-    public Seq<GGItemStack> outputItem=new Seq<>();
-    public Seq<LiquidStack> outputLiquid=new Seq<>();
-    public Recipe_NC(Object...objects){
-        for (int i = 0; i < objects.length / 3; i++){//0为输入
-            if (objects[i * 3] instanceof GGItem_NC item && objects[i * 3 + 1] instanceof Integer count&&(objects[i * 3 + 2]instanceof Integer vc)){
-                if (vc==0){
+    public Seq<GGItemStack> outputItem = new Seq<>();
+    public Seq<ItemStack> RecipeIn = new Seq<>();
+    public Seq<LiquidStack> outputLiquid = new Seq<>();
+
+    public Recipe_NC(Object... objects) {
+        for (int i = 0; i < objects.length / 3; i++) {//0为输入
+            if (objects[i * 3] instanceof GGItem_NC item && objects[i * 3 + 1] instanceof Integer count && (objects[i * 3 + 2] instanceof Integer vc)) {
+                if (vc == 0) {
                     inputItem.add(new GGItemStack(item, count));
-                }else {
-                    outputItem.add( new GGItemStack(item, count));
+                } else {
+                    outputItem.add(new GGItemStack(item, count));
                 }
-            }else if (objects[i * 3] instanceof Liquid liquid && objects[i * 3 + 1] instanceof Float count&&(objects[i * 3 + 2]instanceof Integer vc)){
-                if (vc==0){inputLiquid.add(new LiquidStack(liquid, count));}
-                else {
+            } else if (objects[i * 3] instanceof Liquid liquid && objects[i * 3 + 1] instanceof Float count && (objects[i * 3 + 2] instanceof Integer vc)) {
+                if (vc == 0) {
+                    inputLiquid.add(new LiquidStack(liquid, count));
+                } else {
                     outputLiquid.add(new LiquidStack(liquid, count));
                 }
             }
-        }
+            if (objects[i * 3] instanceof Item item && objects[i * 3 + 1] instanceof Integer count && (objects[i * 3 + 2] instanceof Integer vc)) {
+                if (vc == 0) {
+                    RecipeIn.add(new ItemStack(item, count));
+                }
+            }
 
-        if (objects.length % 2 != 0 && objects[objects.length - 1] instanceof Float multiplier){
-            boostScl = multiplier;
+            if (objects.length % 2 != 0 && objects[objects.length - 1] instanceof Float multiplier) {
+                boostScl = multiplier;
+            }
         }
     }
 }

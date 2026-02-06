@@ -189,7 +189,8 @@ public class NC_power extends NuclearReactor {
     private float SDQ;
     @Override
     public void init() {//过滤不正常
-        super.init();
+        super.init();//1. itemFilter 数组初始化itemFilter = new boolean[content.items().size];
+        //这创建了一个布尔数组，长度等于游戏中所有物品的数量。这个数组用于标记哪些物品可以被该方块接受。
         if (this.outputItems == null && this.outputItem != null) {
             this.outputItems = new ItemStack[]{this.outputItem};
         }
@@ -198,7 +199,7 @@ public class NC_power extends NuclearReactor {
         }
         outputsLiquid = AutomaticOutPutLiquids;
         recipes.each(recipe -> {
-            recipe.inputItem.each(stack -> itemFilter[stack.GG_NC_item.id] = true);
+            recipe.RecipeIn.each(stack -> itemFilter[stack.item.id] = true);
             recipe.inputLiquid.each(stack -> liquidFilter[stack.liquid.id] = true);//设置过滤判断需要物品或流体
             //recipe.outputItem.each(stack -> itemFilter[stack.item.id] = true);
             //recipe.outputLiquid.each(stack -> liquidFilter[stack.liquid.id] = true);
