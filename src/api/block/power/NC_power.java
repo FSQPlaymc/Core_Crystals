@@ -15,6 +15,7 @@ import arc.util.Nullable;
 import arc.util.Scaling;
 import arc.util.Strings;
 import arc.util.Time;
+import content.GGItems;
 import content.GG_Block.GG_Powers;
 import content.GG_Block.GG_walls;
 import mindustry.Vars;
@@ -188,14 +189,12 @@ public class NC_power extends NuclearReactor {
     private float SDQ;
     @Override
     public void init() {//过滤不正常
+        super.init();
         if (this.outputItems == null && this.outputItem != null) {
             this.outputItems = new ItemStack[]{this.outputItem};
         }
         if (this.outputItems != null) {
             this.hasItems = true;
-        }
-        if (itemFilter == null || itemFilter.length == 0) {
-            itemFilter = new boolean[Vars.content.items().size];
         }
         outputsLiquid = AutomaticOutPutLiquids;
         recipes.each(recipe -> {
@@ -205,7 +204,6 @@ public class NC_power extends NuclearReactor {
             //recipe.outputLiquid.each(stack -> liquidFilter[stack.liquid.id] = true);
             //recipe.inputPayload.each(stack -> payloadFilter.add(stack.item));
         });
-        super.init();
     }
 
     public void setStats() {
@@ -690,6 +688,7 @@ public int recipeIndex = -1;
                 boolean valid = true;
 
                 for (GGItemStack input : recipes.get(i).inputItem) {
+                    System.out.println(GGItems.fuel_BUT.id);
                     System.out.println(input.GG_NC_item.id);
                     if (items.get(input.GG_NC_item) < input.amount) {
                         valid = false;
