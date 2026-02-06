@@ -12,7 +12,7 @@ public class GGItemStack implements Comparable<GGItemStack>{
     public GGItem_NC GG_NC_item;
     public int amount = 0;
 
-    public GGItemStack(GGItem_NC GG_item, int amount){
+    public GGItemStack(GGItem_NC GG_NC_item, int amount){
         if(GG_NC_item == null) GG_NC_item = GGItems.U;
         this.GG_NC_item = GG_NC_item;
         this.amount = amount;

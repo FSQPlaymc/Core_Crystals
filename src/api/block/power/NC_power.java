@@ -182,7 +182,7 @@ public class NC_power extends NuclearReactor {
     private static final float UPDATE_INTERVAL = 60f; // 1秒调用一次
     private int factoryX,CV= 0;
     private int factoryY = 0;
-    private int DWS,smk,jsmk;//单元数,石墨块
+    private int DWS,smk,jsmk,ProjectedHeat;//单元数,石墨块,产热
     private float SQQ,H;
     private float fare;
     private float xiaolu =0;//冷却量
@@ -692,9 +692,6 @@ public int recipeIndex = -1;
                 for (GGItemStack input : recipes.get(i).inputItem) {
                     //System.out.println(GGItems.fuel_BUT.id);//23
                     //System.out.println(input.GG_NC_item.id);//26
-                    System.out.println(input.GG_NC_item);//数组出现偏差
-                    System.out.println(input.amount);
-                    System.out.println(items);
                     if (items.get(input.GG_NC_item) < input.amount) {
                         valid = false;
                         break;
