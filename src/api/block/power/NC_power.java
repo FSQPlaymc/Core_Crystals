@@ -370,7 +370,7 @@ public class NC_power extends NuclearReactor {
                              asdf[n][m] = 99;
                          }else if (neighboru != null && neighboru.block == GG_walls.SL) {
                              asdf[n][m] = 1;
-                             SQQ += 0.6F;//测试用
+                             SQQ += 60F;//测试用
                              //this.heat += 1+((DWS-1)*0.8) * NC_power.this.heating * Math.min(this.delta(), 4.0F);
                              //System.out.println(SQQ);
                          } else if (neighboru != null && neighboru.block == GG_walls.fanying) {
@@ -569,6 +569,7 @@ public class NC_power extends NuclearReactor {
             if (recipeIndex>-1){
                 for (GGItemStack stack:recipes.get(recipeIndex).inputItem){
                      fuel = this.items.get(stack.GG_NC_item);
+                     System.out.println("燃料"+fuel);
                 }
             }
             //--------------------------------------------------------------------------------
@@ -620,7 +621,7 @@ public class NC_power extends NuclearReactor {
             }
 
             // 5. 热量限制：确保热量在10~0之间
-            if (this.heat>=11)this.heat= 10.99F;
+            if (this.heat>=11)this.heat= 10.99999F;
             // 6. 过热爆炸：当热量接近最大值（≥0.999）时，触发过热事件并销毁反应堆
             if (this.heat >= 10.999F) {
                 // 触发全局过热事件
@@ -689,8 +690,11 @@ public int recipeIndex = -1;
                 boolean valid = true;
 
                 for (GGItemStack input : recipes.get(i).inputItem) {
-                    System.out.println(GGItems.fuel_BUT.id);
-                    System.out.println(input.GG_NC_item.id);
+                    //System.out.println(GGItems.fuel_BUT.id);//23
+                    //System.out.println(input.GG_NC_item.id);//26
+                    System.out.println(input.GG_NC_item);
+                    System.out.println(input.amount);
+                    System.out.println(items);
                     if (items.get(input.GG_NC_item) < input.amount) {
                         valid = false;
                         break;
@@ -710,8 +714,7 @@ public int recipeIndex = -1;
                         break;
                     }
                 }
- */
-
+*/
                 if (valid) {
                     recipeIndex = i;
                     return;
