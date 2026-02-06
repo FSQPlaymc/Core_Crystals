@@ -182,8 +182,8 @@ public class NC_power extends NuclearReactor {
     private static final float UPDATE_INTERVAL = 60f; // 1秒调用一次
     private int factoryX,CV= 0;
     private int factoryY = 0;
-    private int DWS,smk,jsmk,ProjectedHeat;//单元数,石墨块,产热
-    private float SQQ,H;
+    private int DWS,smk,jsmk;//单元数,石墨块,
+    private float SQQ,H,HeatMultiplier;//产热
     private float fare;
     private float xiaolu =0;//冷却量
     private float SDQ;
@@ -232,6 +232,7 @@ public class NC_power extends NuclearReactor {
         public float SQl;
         public void jance() {
             int BasalHeatProduction=0;
+            HeatMultiplier=0;
             if (recipeIndex>-1) for (GGItemStack input : recipes.get(recipeIndex).inputItem) {BasalHeatProduction=input.GG_NC_item.BasalHeatProduction;}
             // 获取建筑所在的主 Tile 坐标
             int tileX = tile.x;  // 网格坐标 X
@@ -405,6 +406,7 @@ public class NC_power extends NuclearReactor {
                  Y=Miny;n=0;
                 if (ceshi>0){
                     for (int k=0;k<ceshi;k++){
+                        int i=0;
                         S=cx[k];
                         L=cy[k];
                         smk++;
@@ -413,7 +415,13 @@ public class NC_power extends NuclearReactor {
                         s = asdf[S + 1][L];
                         a = asdf[S][L - 1];
                         d = asdf[S][L + 1];
+                        if (d == 80 )i++;
+                        if ( a == 80 )i++;
+                        if ( s == 80 )i++;
+                        if ( w == 80 )i++;
                         if (d == 80 || a == 80 || s == 80 || w == 80) {
+                            HeatMultiplier+= (float) (BasalHeatProduction * 100*(1+i) /6);
+                            fare+=(float)(BasalHeatProduction * 100*(1+i) /3);
                             jsmk++;
                             asdf[S][L] = 91;
                         }
@@ -577,7 +585,7 @@ public class NC_power extends NuclearReactor {
             // 1. 获取当前燃料（钍）的数量，计算燃料满度（占总容量的比例）
             //int fuel = this.items.get(NC_power.this.fuelItem);上方已做更改
             float fullness = fare;
-            this.productionEfficiency = xiaolu; // 发电效率与燃料满度挂钩
+            this.productionEfficiency = xiaolu; // 发电效率与燃料满度挂钩xiaolu，1=900
             // 2. 燃料燃烧逻辑：若有燃料且反应堆启用，则产生热量并消耗燃料
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
