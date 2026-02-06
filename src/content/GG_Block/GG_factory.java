@@ -26,7 +26,7 @@ import static mindustry.type.ItemStack.with;
 
 public class GG_factory {
     public static AttributeCrafter cultivator;
-    public static MFactory_2 aaaaaaaaa;
+    public static MFactory_2 aaaaaaaaa,fenli,zhizao;
     public static factory SmallGlassKiln,plastaniumYsji;
     public static factory SGfacto;
     public static factory surgeAlloyF;
@@ -34,6 +34,22 @@ public class GG_factory {
     public static GenericCrafter ksbl,sitichun,Ctiqu,Sichunghua,pulverizer,electrolyzer,boli,tuduizhuang,SYoilY,MKhejin;
     public static Separator separator,Bigfenli;
     public static void factorys(){
+        zhizao=new MFactory_2("zhizao"){{
+            requirements(Category.crafting,with(Items.surgeAlloy,25));
+            size=2;
+            hasItems=hasPower=true;
+            itemCapacity=20;
+            addInput(GGItems.thorium_232,4,0,GGItems.fuel_BUT,1,1);
+            consumePower(60/30f);
+        }};
+        fenli=new MFactory_2("fenli"){{
+            requirements(Category.crafting,with(Items.surgeAlloy,25));
+            size=2;
+           hasItems=hasPower=true;
+           itemCapacity=20;
+           addInput(Items.thorium,1,0,GGItems.thorium_232,1,1,GGItems.thorium_230,1,1);
+           consumePower(60/30f);
+        }};
         aaaaaaaaa=new MFactory_2("aaaaawd"){{
             size=2;
             outputsLiquid=true;

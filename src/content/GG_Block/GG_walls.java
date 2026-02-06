@@ -21,7 +21,7 @@ public class GG_walls {
         linbin=new GG_Wall("linbin"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
             size=1;
-            this.colod=1.6f;
+            this.colod=160f;
         }};
         qinjingshi=new GG_Wall("qinjingshi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));

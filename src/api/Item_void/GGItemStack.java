@@ -3,8 +3,7 @@ package api.Item_void;
 import arc.math.Mathf;
 import arc.struct.Seq;
 import content.GGItems;
-import mindustry.content.Items;
-import mindustry.type.Item;
+import mindustry.type.ItemStack;
 
 public class GGItemStack implements Comparable<GGItemStack>{
     public static final GGItemStack[] empty = {};

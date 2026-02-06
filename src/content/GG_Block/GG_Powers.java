@@ -25,11 +25,30 @@ import static mindustry.type.ItemStack.with;
 
 public class GG_Powers {
     public static ImpactReactor baoranchongji;
-    public static NC_power ffff;
+    public static NC_power ffff,CCCC;
     public  static ConsumeGenerator reanshaoshi,fenlifadian;
     public static SolarGenerator solarPanel;
     public static NuclearReactor hefanyingdui,jinghuaqi;
     public static void Power(){
+        CCCC=new NC_power("CCCC"){{
+            requirements(Category.power, with(Items.lead, 20, Items.silicon, 32));
+            baseheat=1.0f;
+            ambientSound = Sounds.loopThoriumReactor;
+            ambientSoundVolume = 0.24f;
+            size=1;
+            hasItems=true;
+            itemCapacity=10;
+            health = 700;
+            itemDuration = 360f;
+            powerProduction = 15f;
+            heating = 0.02f;
+            this.basepower=1.3f;
+            drawer = new DrawMulti(new DrawDefault(),  new DrawRegion("-top"){{
+                buildingRotate = false;//贴图不转
+            }});
+            addInput(GGItems.fuel_BUT,1,0,GGItems.depleted_fuel_BUT,1,1);
+            consumeLiquid(Liquids.cryofluid, heating / coolantPower).update(false);
+        }};
         baoranchongji=new ImpactReactor("爆燃冲击反应堆"){{
             size=4;
             health = 900;

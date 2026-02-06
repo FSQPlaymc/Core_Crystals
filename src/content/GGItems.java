@@ -17,10 +17,18 @@ public class GGItems {
     public static Item TanNaMiHeXing;
     public static Item zaisu;
     public static  Item hejing;
-    public static GGItem_NC U;
+    public static GGItem_NC U,thorium_230,thorium_232,fuel_BUT,depleted_fuel_BUT;
     public static final Seq<Item> GGItemsj = new Seq();
     public GGItems(){}
     public static void aloud(){
+        depleted_fuel_BUT= new GGItem_NC("depleted_fuel_BUT",Color.valueOf("00x000"));
+        fuel_BUT=new GGItem_NC("BUT",Color.valueOf("00x000")){{
+            BasalHeatProduction=18;
+            BasicBurnTime=120*60;
+            //id=1145;//-32768到32767
+        }};
+        thorium_230= new GGItem_NC("thorium_230",Color.valueOf("00x000"));
+        thorium_232= new GGItem_NC("thorium_232",Color.valueOf("00x000"));
         U=new GGItem_NC("U",Color.valueOf("00x000")){{
 
         }};
