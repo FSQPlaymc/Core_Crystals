@@ -692,7 +692,7 @@ public int recipeIndex = -1;
                 for (GGItemStack input : recipes.get(i).inputItem) {
                     //System.out.println(GGItems.fuel_BUT.id);//23
                     //System.out.println(input.GG_NC_item.id);//26
-                    System.out.println(input.GG_NC_item);
+                    System.out.println(input.GG_NC_item);//数组出现偏差
                     System.out.println(input.amount);
                     System.out.println(items);
                     if (items.get(input.GG_NC_item) < input.amount) {
