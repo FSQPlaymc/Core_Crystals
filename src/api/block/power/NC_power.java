@@ -232,7 +232,7 @@ public class NC_power extends NuclearReactor {
         public float SQl;
         public void jance() {
             int BasalHeatProduction=0;
-            HeatMultiplier=0;
+            HeatMultiplier=0;xiaolu=1.0f;
             if (recipeIndex>-1) for (GGItemStack input : recipes.get(recipeIndex).inputItem) {BasalHeatProduction=input.GG_NC_item.BasalHeatProduction;}
             // 获取建筑所在的主 Tile 坐标
             int tileX = tile.x;  // 网格坐标 X
@@ -420,6 +420,7 @@ public class NC_power extends NuclearReactor {
                         if ( s == 80 )i++;
                         if ( w == 80 )i++;
                         if (d == 80 || a == 80 || s == 80 || w == 80) {
+                            xiaolu+= (float) ((1+i)*0.8);//
                             HeatMultiplier+= (float) (BasalHeatProduction * 100*(1+i) /6);
                             fare+=(float)(BasalHeatProduction * 100*(1+i) /3);
                             jsmk++;
@@ -428,7 +429,7 @@ public class NC_power extends NuclearReactor {
                     }
                 }
                 System.out.println("数组：" + Arrays.deepToString(asdf));
-                xiaolu = fare = 0;
+                fare = 0;
                 for (int[] ab :asdf) {
                     for (int e : ab) {
                         tj1 = tj2 = false;
@@ -455,7 +456,7 @@ public class NC_power extends NuclearReactor {
                                 if (a == 80 || a == 81 || a == 91) CV++;
                                 d = asdf[n][m + 1];
                                 if (d == 80 || d == 81 || d == 91) CV++;
-                                xiaolu += (CV + 1) * NC_power.this.basepower;
+                                //xiaolu += (CV + 1) * NC_power.this.basepower;基础已改为BasalHeatProduction
                                 fare += ((float) ((CV + 1) * (CV + 2)) / 2) * NC_power.this.baseheat*BasalHeatProduction;
                                 System.out.println("没问题");
                             }break;
@@ -551,7 +552,7 @@ public class NC_power extends NuclearReactor {
                     System.out.println("循环了"+n);
                     n++;m = 0;Y++;X = Minx;
                 }
-                fare+=smk*NC_power.this.baseheat;
+                //fare+=smk*NC_power.this.baseheat*BasalHeatProduction/2;
             }
             ////System.out.println("单元数"+DWS);
             factoryX=0;
@@ -567,17 +568,20 @@ public class NC_power extends NuclearReactor {
         }
         @Override
         public void updateTile(){
-            float coldc=SQQ*cold;
-            this.productionEfficiency=0.0f;
+            float coldc=SQQ*cold,BasePower=0;
+            //this.productionEfficiency=0.0f;
             //--------------------------------------------------------------------------------
-            int fuel=0;
+            int fuel=0,itemDuration=0;
             if (!validRecipe()) updateRecipe();
             P_recipeIndex=recipeIndex;
             if (timer(timerDump, dumpTime / timeScale)) dumpOutputs();
             if (recipeIndex>-1){
                 for (GGItemStack stack:recipes.get(recipeIndex).inputItem){
-                     fuel = this.items.get(stack.GG_NC_item);
-                     System.out.println("燃料"+fuel);
+                    fuel = this.items.get(stack.GG_NC_item);
+                    itemDuration=stack.GG_NC_item.BasicBurnTime;
+                    BasePower=stack.GG_NC_item.BasalPower;
+                    System.out.println(BasePower);
+                     //System.out.println("燃料"+fuel);
                 }
             }
             //--------------------------------------------------------------------------------
@@ -585,7 +589,11 @@ public class NC_power extends NuclearReactor {
             // 1. 获取当前燃料（钍）的数量，计算燃料满度（占总容量的比例）
             //int fuel = this.items.get(NC_power.this.fuelItem);上方已做更改
             float fullness = fare;
-            this.productionEfficiency = xiaolu; // 发电效率与燃料满度挂钩xiaolu，1=900
+            this.productionEfficiency = xiaolu*DWS*(BasePower/900); // 发电效率与燃料满度挂钩xiaolu，1=900
+            System.out.println(xiaolu);
+            System.out.println(DWS);
+            System.out.println(BasePower/900);
+            System.out.println(productionEfficiency);
             // 2. 燃料燃烧逻辑：若有燃料且反应堆启用，则产生热量并消耗燃料
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
@@ -593,7 +601,7 @@ public class NC_power extends NuclearReactor {
                 double w=jsmk*30;
                 System.out.println("减少燃烧时间"+H);
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
-                if (this.timer( (NC_power.this.timerFuel), (float) (NC_power.this.itemDuration-H+w / (this.timeScale)))) {
+                if (this.timer( (NC_power.this.timerFuel), (float) (itemDuration-H+w / (this.timeScale)))) {
                     this.consume();
                     this.craft();
                 }
@@ -628,10 +636,10 @@ public class NC_power extends NuclearReactor {
                 }
             }
 
-            // 5. 热量限制：确保热量在10~0之间
-            if (this.heat>=11)this.heat= 10.99999F;
+            // 5. 热量限制：确保热量在1000~0之间
+            if (this.heat>=1001)this.heat= 1000.99F;
             // 6. 过热爆炸：当热量接近最大值（≥0.999）时，触发过热事件并销毁反应堆
-            if (this.heat >= 10.999F) {
+            if (this.heat >= 1000F) {
                 // 触发全局过热事件
                 Events.fire(EventType.Trigger.thoriumReactorOverheat);
                 explosionRadius = 19+DWS*3;

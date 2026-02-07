@@ -25,6 +25,7 @@ public class GGItems {
         fuel_BUT=new GGItem_NC("BUT",Color.valueOf("00x000")){{
             BasalHeatProduction=18;
             BasicBurnTime=120*60;
+            BasalPower=150f;//1=900NC处理
             //id=1145;//-32768到32767
         }};
         thorium_230= new GGItem_NC("thorium_230",Color.valueOf("00x000"));
