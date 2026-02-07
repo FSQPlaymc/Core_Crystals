@@ -26,7 +26,7 @@ import static mindustry.type.ItemStack.with;
 
 public class GG_factory {
     public static AttributeCrafter cultivator;
-    public static MFactory_2 aaaaaaaaa,fenli,zhizao;
+    public static MFactory_2 aaaaaaaaa,fenli,manufactory_front,fuel_reprocessor_front;//fuel_reprocessor_front燃料处理，manufactory_front制造机
     public static factory SmallGlassKiln,plastaniumYsji;
     public static factory SGfacto;
     public static factory surgeAlloyF;
@@ -34,12 +34,21 @@ public class GG_factory {
     public static GenericCrafter ksbl,sitichun,Ctiqu,Sichunghua,pulverizer,electrolyzer,boli,tuduizhuang,SYoilY,MKhejin;
     public static Separator separator,Bigfenli;
     public static void factorys(){
-        zhizao=new MFactory_2("zhizao"){{
+        fuel_reprocessor_front=new MFactory_2("fuel_reprocessor_front"){{
+            size=2;
+            requirements(Category.crafting,with(Items.surgeAlloy,25));
+            hasItems=hasPower;
+            addInput(GGItems.depleted_fuel_BUT,1,0,GGItems.uranium_233,2,1,GGItems.uranium_235,1,1,GGItems.neptunium_236,1,1,GGItems.neptunium_237,3,1);
+            consumePower(80f/60);
+        }};
+        manufactory_front=new MFactory_2("manufactory_front"){{//制造机
             requirements(Category.crafting,with(Items.surgeAlloy,25));
             size=2;
             hasItems=hasPower=true;
             itemCapacity=20;
             addInput(GGItems.thorium_232,4,0,GGItems.fuel_BUT,1,1);
+            addInput(GGItems.uranium_233,1,0,GGItems.uranium_238,5,0,GGItems.fuel_uranium_233,1,1);
+            addInput(GGItems.uranium_235,1,0,GGItems.uranium_238,5,0,GGItems.depleted_fuel_uranium_235,1,1);
             consumePower(60/30f);
         }};
         fenli=new MFactory_2("fenli"){{
@@ -48,6 +57,7 @@ public class GG_factory {
            hasItems=hasPower=true;
            itemCapacity=20;
            addInput(Items.thorium,1,0,GGItems.thorium_232,1,1,GGItems.thorium_230,1,1);
+           addInput(GGItems.U,4,0,GGItems.uranium_238,4,1,GGItems.uranium_235,1,1);
            consumePower(60/30f);
         }};
         aaaaaaaaa=new MFactory_2("aaaaawd"){{

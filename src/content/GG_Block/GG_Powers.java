@@ -47,6 +47,8 @@ public class GG_Powers {
                 buildingRotate = false;//贴图不转
             }});
             addInput(GGItems.fuel_BUT,1,0,GGItems.depleted_fuel_BUT,1,1);
+            addInput(GGItems.fuel_uranium_233,1,0,GGItems.depleted_fuel_uranium_233,1,1);
+            addInput(GGItems.fuel_uranium_235,1,0,GGItems.depleted_fuel_uranium_235,1,1);
             consumeLiquid(Liquids.cryofluid, heating / coolantPower).update(false);
         }};
         baoranchongji=new ImpactReactor("爆燃冲击反应堆"){{

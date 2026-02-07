@@ -13,7 +13,7 @@ import mindustry.type.LiquidStack;
 public class Recipe_NC extends Recipe_2 {
     public Seq<GGItemStack> inputItem = new Seq<>();
     public Seq<GGItemStack> outputItem = new Seq<>();
-    public Seq<ItemStack> RecipeIn = new Seq<>();
+    //public Seq<ItemStack> RecipeIn = new Seq<>();
     public Seq<LiquidStack> outputLiquid = new Seq<>();
 
     public Recipe_NC(Object... objects) {
@@ -31,11 +31,11 @@ public class Recipe_NC extends Recipe_2 {
                     outputLiquid.add(new LiquidStack(liquid, count));
                 }
             }
-            if (objects[i * 3] instanceof Item item && objects[i * 3 + 1] instanceof Integer count && (objects[i * 3 + 2] instanceof Integer vc)) {
-                if (vc == 0) {
-                    RecipeIn.add(new ItemStack(item, count));
-                }
-            }
+//            if (objects[i * 3] instanceof Item item && objects[i * 3 + 1] instanceof Integer count && (objects[i * 3 + 2] instanceof Integer vc)) {
+//                if (vc == 0) {
+//                    RecipeIn.add(new ItemStack(item, count));
+//                }
+//            }
 
             if (objects.length % 2 != 0 && objects[objects.length - 1] instanceof Float multiplier) {
                 boostScl = multiplier;

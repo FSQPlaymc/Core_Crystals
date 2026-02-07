@@ -199,7 +199,7 @@ public class NC_power extends NuclearReactor {
         }
         outputsLiquid = AutomaticOutPutLiquids;
         recipes.each(recipe -> {
-            recipe.RecipeIn.each(stack -> itemFilter[stack.item.id] = true);
+            recipe.inputItem.each(stack -> itemFilter[stack.GG_NC_item.id] = true);
             recipe.inputLiquid.each(stack -> liquidFilter[stack.liquid.id] = true);//设置过滤判断需要物品或流体
             //recipe.outputItem.each(stack -> itemFilter[stack.item.id] = true);
             //recipe.outputLiquid.each(stack -> liquidFilter[stack.liquid.id] = true);
@@ -568,10 +568,11 @@ public class NC_power extends NuclearReactor {
         }
         @Override
         public void updateTile(){
-            float coldc=SQQ*cold,BasePower=0;
+            float coldc=SQQ*cold,BasePower=0,itemDuration=0;
             //this.productionEfficiency=0.0f;
             //--------------------------------------------------------------------------------
-            int fuel=0,itemDuration=0;
+            int fuel=0;
+
             if (!validRecipe()) updateRecipe();
             P_recipeIndex=recipeIndex;
             if (timer(timerDump, dumpTime / timeScale)) dumpOutputs();
@@ -580,7 +581,7 @@ public class NC_power extends NuclearReactor {
                     fuel = this.items.get(stack.GG_NC_item);
                     itemDuration=stack.GG_NC_item.BasicBurnTime;
                     BasePower=stack.GG_NC_item.BasalPower;
-                    System.out.println(BasePower);
+                    //System.out.println(BasePower);
                      //System.out.println("燃料"+fuel);
                 }
             }
@@ -590,16 +591,12 @@ public class NC_power extends NuclearReactor {
             //int fuel = this.items.get(NC_power.this.fuelItem);上方已做更改
             float fullness = fare;
             this.productionEfficiency = xiaolu*DWS*(BasePower/900); // 发电效率与燃料满度挂钩xiaolu，1=900
-            System.out.println(xiaolu);
-            System.out.println(DWS);
-            System.out.println(BasePower/900);
-            System.out.println(productionEfficiency);
             // 2. 燃料燃烧逻辑：若有燃料且反应堆启用，则产生热量并消耗燃料
             if (fuel > 0 && this.enabled) {
                 // 热量随燃料满度和时间增加（delta()是本帧耗时，限制最大4ms防止跳变）
                 this.heat += fullness * NC_power.this.heating * Math.min(this.delta(), 4.0F);
                 double w=jsmk*30;
-                System.out.println("减少燃烧时间"+H);
+                //System.out.println("减少燃烧时间"+H);
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
                 if (this.timer( (NC_power.this.timerFuel), (float) (itemDuration-H+w / (this.timeScale)))) {
                     this.consume();
