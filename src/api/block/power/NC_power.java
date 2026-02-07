@@ -166,8 +166,8 @@ public class NC_power extends NuclearReactor {
         this.envEnabled = -1;
         this.explosionShake = 6.0F;
         this.explosionShakeDuration = 16.0F;
-        this.explosionRadius = 19+DWS*3;    // 爆炸范围（半径）
-        this.explosionDamage = 5000+500*DWS;  // 爆炸伤害值
+        this.explosionRadius = 19;    // 爆炸范围（半径）
+        this.explosionDamage = 5000;  // 爆炸伤害值
         this.explodeEffect = Fx.reactorExplosion;
         this.explodeSound = Sounds.explosionReactor;//音效
         // 添加基础发电量设置（关键！）
@@ -180,13 +180,13 @@ public class NC_power extends NuclearReactor {
     private static final int UPDATE_TIMER = 1;
     // 定义调用间隔（单位： ticks，60ticks = 1秒）
     private static final float UPDATE_INTERVAL = 60f; // 1秒调用一次
-    private int factoryX,CV= 0;
-    private int factoryY = 0;
-    private int DWS,smk,jsmk;//单元数,石墨块,
-    private float SQQ,H,HeatMultiplier;//产热
-    private float fare;
-    private float xiaolu =0;//冷却量
-    private float SDQ;
+//    private int factoryX,CV= 0;
+//    private int factoryY = 0;
+//    private int DWS,smk,jsmk;//单元数,石墨块,
+//    private float SQQ,H,HeatMultiplier;//产热
+//    private float fare;
+//    private float xiaolu =0;//冷却量
+    private float SDQL;
     @Override
     public void init() {//过滤不正常
         super.init();//1. itemFilter 数组初始化itemFilter = new boolean[content.items().size];
@@ -225,10 +225,19 @@ public class NC_power extends NuclearReactor {
     public void setBars(){
         super.setBars();
         addBar("heats", (NC_powerBuid entitys)
-                -> new Bar("bar.heats{{{{："+SDQ, Pal.lightOrange, () -> entitys.heat)
+                -> new Bar("bar.heats{{{{："+SDQL, Pal.lightOrange, () -> entitys.heat)
         );
     }
     public class NC_powerBuid extends NuclearReactorBuild {
+        // 将这些变量从NC_power类移到NC_powerBuid类中
+        public int factoryX, CV = 0;
+        public int factoryY = 0;
+        public int DWS, smk, jsmk; // 单元数,石墨块
+        public float SQQ, H, HeatMultiplier; // 产热
+        public float fare;
+        public float xiaolu = 0; // 冷却量
+        public float SDQ; // 每台机器应该有自己的SDQ
+
         public float SQl;
         public void jance() {
             int BasalHeatProduction=0;
@@ -610,7 +619,8 @@ public class NC_power extends NuclearReactor {
             // 原代码：heat -= SQQ;
             heat -= asd; // 关联每帧时间
             // 3. 冷却逻辑：若有冷却液，消耗冷却液并降低热量
-            SDQ= fare-coldc;
+            SDQL=SDQ= fare-coldc;
+            System.out.println(Vars.world.build(tile.x, tile.y)+""+SDQ);
             if (this.heat > 0.0F) {
                 // 计算最大可使用的冷却剂量（不超过当前液体量，且不超过当前热量可冷却的量）
                 float maxUsed = Math.min(this.liquids.currentAmount(), this.heat / coolantPower);

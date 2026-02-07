@@ -16,7 +16,7 @@ public class GG_walls {
         lubaoshi=new GG_Wall("lubaoshi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
             size=1;
-            this.colod=1.6f;
+            this.colod=160f;
         }};
         linbin=new GG_Wall("linbin"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
@@ -26,22 +26,22 @@ public class GG_walls {
         qinjingshi=new GG_Wall("qinjingshi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
             size=1;
-            this.colod=1.2f;
+            this.colod=120f;
         }};
         shiying=new GG_Wall("shiying"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
             size=1;
-            this.colod=0.9f;
+            this.colod=90f;
         }};
         ynishi=new GG_Wall("ynishi"){{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
             size=1;
-            this.colod=1.3f;
+            this.colod=130f;
         }};
         hongshi= new GG_Wall("hongshi") {{
             requirements(Category.defense, ItemStack.with(Items.lead, 20));
             size=1;
-            this.colod=0.9f;
+            this.colod=90f;
         }};
         jansuji=new Wall("jansuji"){{
             requirements(Category.defense, ItemStack.with(Items.coal, 20,Items.copper,10));

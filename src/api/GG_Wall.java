@@ -8,4 +8,10 @@ public class GG_Wall extends Wall {
         super(name);
         this.colod=0.0f;
     }
+    @Override
+    public void setStats(){
+        super.setStats();
+        stats.addPercent(GG_Stat.colod,colod);
+
+    }
 }
