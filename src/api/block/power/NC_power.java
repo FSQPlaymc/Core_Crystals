@@ -225,8 +225,15 @@ public class NC_power extends NuclearReactor {
     public void setBars(){
         super.setBars();
         addBar("heats", (NC_powerBuid entitys)
-                -> new Bar("bar.heats{{{{："+SDQL, Pal.lightOrange, () -> entitys.heat)
+                        -> new Bar(
+                         "bar.heats：" + entitys.SDQ,  // 使用 lambda 动态获取每个建筑的 SDQ
+                Pal.lightOrange,
+                        () -> entitys.heat / 1000.0f  // 假设 heat 最大为 1000，归一化到 0-1
+                )
         );
+        //addBar("heats", (NC_powerBuid entitys)
+        //        -> new Bar("bar.heats{{{{："+SDQL, Pal.lightOrange, () -> entitys.heat)
+        //);
     }
     public class NC_powerBuid extends NuclearReactorBuild {
         // 将这些变量从NC_power类移到NC_powerBuid类中
