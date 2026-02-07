@@ -24,7 +24,7 @@ public class GG_units
     public static void units(){
         tizhizhu=new UnitType("tizhizhu"){{
             constructor = LegsUnit::create;
-            this.speed = 1.0F;//移速
+            this.speed = 0.9F;//移速
             this.drag = 0.4F;
             this.hitSize = 13.0F;
             this.rotateSpeed = 3.0F;
