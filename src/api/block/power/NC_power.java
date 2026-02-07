@@ -15,7 +15,6 @@ import arc.util.Nullable;
 import arc.util.Scaling;
 import arc.util.Strings;
 import arc.util.Time;
-import content.GGItems;
 import content.GG_Block.GG_Powers;
 import content.GG_Block.GG_walls;
 import mindustry.Vars;
@@ -36,8 +35,6 @@ import mindustry.ui.Bar;
 import mindustry.ui.Styles;
 import mindustry.world.blocks.power.NuclearReactor;
 import mindustry.world.meta.*;
-
-import java.util.Arrays;
 
 import static content.GG_Block.GG_walls.cs;
 import static mindustry.world.meta.StatValues.withTooltip;
@@ -180,13 +177,7 @@ public class NC_power extends NuclearReactor {
     private static final int UPDATE_TIMER = 1;
     // 定义调用间隔（单位： ticks，60ticks = 1秒）
     private static final float UPDATE_INTERVAL = 60f; // 1秒调用一次
-//    private int factoryX,CV= 0;
-//    private int factoryY = 0;
-//    private int DWS,smk,jsmk;//单元数,石墨块,
-//    private float SQQ,H,HeatMultiplier;//产热
-//    private float fare;
-//    private float xiaolu =0;//冷却量
-    private float SDQL;
+
     @Override
     public void init() {//过滤不正常
         super.init();//1. itemFilter 数组初始化itemFilter = new boolean[content.items().size];
@@ -245,7 +236,6 @@ public class NC_power extends NuclearReactor {
         public float xiaolu = 0; // 冷却量
         public float SDQ; // 每台机器应该有自己的SDQ
 
-        public float SQl;
         public void jance() {
             int BasalHeatProduction=0;
             HeatMultiplier=0;xiaolu=1.0f;
@@ -291,8 +281,8 @@ public class NC_power extends NuclearReactor {
                 for (int i = 1; i <= 64; i++) {
                     checkX = checkX + 1; // 左侧第i个位置
                     Building neighbor = Vars.world.build(checkX, tileY);
-                    System.out.println(checkX +","+ tileY);
-                    System.out.println(neighbor);
+                    //System.out.println(checkX +","+ tileY);
+                    //System.out.println(neighbor);
                     // 检查方块是否存在且为GG_walls.cs
                     if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass)) {
                         factoryX=factoryX+1;
@@ -305,15 +295,15 @@ public class NC_power extends NuclearReactor {
                         break;
                     }
                 }
-            }System.out.println(neighborS);if (neighborS != null && neighborS.block == cs) {
+            }if (neighborS != null && neighborS.block == cs) {
                 // 邻居是 GG_walls.cs 方块
                 // 循环检测上侧N个方块
                 for (int i = 1; i <= 64; i++) {
                     checkY = checkY + 1; // 上侧第i个位置
                     Building neighbor = Vars.world.build(tileX, checkY);
                     // 检查方块是否存在且为GG_walls.cs
-                    System.out.println(tileX+","+ checkY);
-                    System.out.println(neighbor);
+                    //System.out.println(tileX+","+ checkY);
+                    //System.out.println(neighbor);
                     if (neighbor != null &&  (neighbor.block == cs || neighbor.block == GG_walls.glass)) {
                         factoryY = factoryY +1;
                         // 在这里添加对每个检测到的工厂的操作
@@ -369,8 +359,8 @@ public class NC_power extends NuclearReactor {
             int ceshi=0;
             cx=new int[1028];
             cy=new int[1028];
-            System.out.println("??????????"+FS);
-            System.out.println("??????????"+FL);
+            //System.out.println("??????????"+FS);
+            //System.out.println("??????????"+FL);
             if (FL!=1&&FS!=1) {
                 int w, s, a, d,l=0,m=0,n=0;
                 boolean tj1, tj2;
@@ -444,7 +434,7 @@ public class NC_power extends NuclearReactor {
                         }
                     }
                 }
-                System.out.println("数组：" + Arrays.deepToString(asdf));
+                //System.out.println("数组：" + Arrays.deepToString(asdf));
                 fare = 0;
                 for (int[] ab :asdf) {
                     for (int e : ab) {
@@ -474,7 +464,7 @@ public class NC_power extends NuclearReactor {
                                 if (d == 80 || d == 81 || d == 91) CV++;
                                 //xiaolu += (CV + 1) * NC_power.this.basepower;基础已改为BasalHeatProduction
                                 fare += ((float) ((CV + 1) * (CV + 2)) / 2) * NC_power.this.baseheat*BasalHeatProduction;
-                                System.out.println("没问题");
+                                //System.out.println("没问题");
                             }break;
                             case 4:{//shiying
                                 w = asdf[n - 1][m];
@@ -565,7 +555,6 @@ public class NC_power extends NuclearReactor {
                         }
                         m++;X++;
                     }
-                    System.out.println("循环了"+n);
                     n++;m = 0;Y++;X = Minx;
                 }
                 //fare+=smk*NC_power.this.baseheat*BasalHeatProduction/2;
@@ -626,8 +615,7 @@ public class NC_power extends NuclearReactor {
             // 原代码：heat -= SQQ;
             heat -= asd; // 关联每帧时间
             // 3. 冷却逻辑：若有冷却液，消耗冷却液并降低热量
-            SDQL=SDQ= fare-coldc;
-            System.out.println(Vars.world.build(tile.x, tile.y)+""+SDQ);
+            SDQ= fare-coldc;
             if (this.heat > 0.0F) {
                 // 计算最大可使用的冷却剂量（不超过当前液体量，且不超过当前热量可冷却的量）
                 float maxUsed = Math.min(this.liquids.currentAmount(), this.heat / coolantPower);
@@ -792,7 +780,6 @@ public int recipeIndex = -1;
 
             for (GGItemStack stack:recipes.get(recipeIndex).outputItem){
                 if (stack.GG_NC_item!=null) {
-                    System.out.println(stack.GG_NC_item+","+stack.amount);
                     new_offload(stack.GG_NC_item, stack.amount);
                 }
             }
