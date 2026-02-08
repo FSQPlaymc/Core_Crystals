@@ -137,13 +137,14 @@ public class NC_power extends NuclearReactor {
     public TextureRegion lightsRegion;
     public NC_power(String name) {
         super(name);
+        this.timerFuel = this.timers++;
         this.cold=1;
         this.baseheat=1.0f;
         this.basepower=1.0f;
         update = true;
         solid = true;
         configurable = true;
-        this.timerFuel = this.timers++;
+        //this.timerFuel = this.timers++;
         this.lightColor = Color.valueOf("7f19ea");
         this.coolColor = new Color(1.0F, 1.0F, 1.0F, 0.0F);
         this.hotColor = Color.valueOf("ff9575a3");
@@ -215,11 +216,12 @@ public class NC_power extends NuclearReactor {
     @Override
     public void setBars(){
         super.setBars();
+        addBar("time",(NC_powerBuid entity)-> new Bar("time", Pal.lightOrange,() -> entity.clampedTime));
+        this.addBar("heat", (NC_powerBuid entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat/1000));
         addBar("heats", (NC_powerBuid entitys)
-                        -> new Bar(
-                         "bar.heats：" + entitys.SDQ,  // 使用 lambda 动态获取每个建筑的 SDQ
+                        -> new Bar("bar.heats：" + entitys.SDQ,  // 使用 lambda 动态获取每个建筑的 SDQ
                 Pal.lightOrange,
-                        () -> entitys.heat / 1000.0f  // 假设 heat 最大为 1000，归一化到 0-1
+                        () -> 0  // 假设 heat 最大为 1000，归一化到 0-1
                 )
         );
         //addBar("heats", (NC_powerBuid entitys)
@@ -234,7 +236,7 @@ public class NC_power extends NuclearReactor {
         public float SQQ, H, HeatMultiplier; // 产热
         public float fare;
         public float xiaolu = 0; // 冷却量
-        public float SDQ; // 每台机器应该有自己的SDQ
+        public float SDQ,clampedTime; // 每台机器应该有自己的SDQ
 
         public void jance() {
             int BasalHeatProduction=0;
@@ -563,12 +565,7 @@ public class NC_power extends NuclearReactor {
             factoryX=0;
             factoryY=0;
             if (DWS>0){
-                if (DWS<=15){
-                    H=DWS*20;
-                }else {
-                    H=300;
-                }
-                if (DWS>15){H+= (float) Math.pow((DWS-15)*20,1.0/1.5);}
+                    H=DWS*10;
             }
         }
         @Override
@@ -603,7 +600,10 @@ public class NC_power extends NuclearReactor {
                 double w=jsmk*30;
                 //System.out.println("减少燃烧时间"+H);
                 // 定时消耗燃料：当燃料计时器达到设定值（itemDuration / 时间缩放加单元数）时，消耗1单位燃料
+                //System.out.println("asd"+timerFuel);
+                 clampedTime = (float) Math.min(1.0f, Math.max(0.0f, itemDuration-H+w / this.timeScale));
                 if (this.timer( (NC_power.this.timerFuel), (float) (itemDuration-H+w / (this.timeScale)))) {
+                    clampedTime=0;
                     this.consume();
                     this.craft();
                 }
