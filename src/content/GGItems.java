@@ -22,35 +22,35 @@ public class GGItems {
     public static final Seq<Item> GGItemsj = new Seq();
     public GGItems(){}
     public static void aloud(){
-        neptunium_236=new GGItem_NC("neptunium_236",Color.valueOf("00x000"));
-        neptunium_237=new GGItem_NC("neptunium_237",Color.valueOf("00x000"));
-        uranium_233=new GGItem_NC("uranium_233",Color.valueOf("00x000"));
-        uranium_235=new GGItem_NC("uranium_235",Color.valueOf("00x000"));
-        uranium_238=new GGItem_NC("uranium_238",Color.valueOf("00x000"));
-        depleted_fuel_uranium_233=new GGItem_NC("depleted_fuel_uranium_233",Color.valueOf("00x000"));
-        depleted_fuel_uranium_235=new GGItem_NC("depleted_fuel_uranium_235",Color.valueOf("00x000"));
-        depleted_fuel_BUT= new GGItem_NC("depleted_fuel_BUT",Color.valueOf("00x000"));
-        fuel_BUT=new GGItem_NC("BUT",Color.valueOf("00x000")){{
+        neptunium_236=new GGItem_NC("neptunium_236",Color.valueOf("54f936"));
+        neptunium_237=new GGItem_NC("neptunium_237",Color.valueOf("54f936"));
+        uranium_233=new GGItem_NC("uranium_233",Color.valueOf("54f936"));
+        uranium_235=new GGItem_NC("uranium_235",Color.valueOf("54f936"));
+        uranium_238=new GGItem_NC("uranium_238",Color.valueOf("54f936"));
+        depleted_fuel_uranium_233=new GGItem_NC("depleted_fuel_uranium_233",Color.valueOf("54f936"));
+        depleted_fuel_uranium_235=new GGItem_NC("depleted_fuel_uranium_235",Color.valueOf("54f936"));
+        depleted_fuel_BUT= new GGItem_NC("depleted_fuel_BUT",Color.valueOf("54f936"));
+        fuel_BUT=new GGItem_NC("BUT",Color.valueOf("54f936")){{
             BasalHeatProduction=22;
             BasicBurnTime=120*30;
             BasalPower=84f;//1=900NC处理
             //id=1145;//-32768到32767
         }};
-        fuel_uranium_233=new GGItem_NC("fuel_uranium_233",Color.valueOf("00x000")){{
+        fuel_uranium_233=new GGItem_NC("fuel_uranium_233",Color.valueOf("54f936")){{
             BasalHeatProduction=60;
             BasicBurnTime=75.6f*30;
             BasalPower=201.6f;//1=900NC处理
             //id=1145;//-32768到32767
         }};
-        fuel_uranium_235=new GGItem_NC("fuel_uranium_235",Color.valueOf("00x000")){{
+        fuel_uranium_235=new GGItem_NC("fuel_uranium_235",Color.valueOf("54f936")){{
             BasalHeatProduction=18;
             BasicBurnTime=62.5f*30;
             BasalPower=168f;//1=900NC处理
             //id=1145;//-32768到32767
         }};
-        thorium_230= new GGItem_NC("thorium_230",Color.valueOf("00x000"));
-        thorium_232= new GGItem_NC("thorium_232",Color.valueOf("00x000"));
-        U=new GGItem_NC("U",Color.valueOf("00x000")){{
+        thorium_230= new GGItem_NC("thorium_230",Color.valueOf("54f936"));
+        thorium_232= new GGItem_NC("thorium_232",Color.valueOf("54f936"));
+        U=new GGItem_NC("U",Color.valueOf("54f936")){{
 
         }};
         Sijingti = new Item("guijingti", Color.valueOf("031817")) {{

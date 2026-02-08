@@ -15,6 +15,9 @@ public class GGItem_NC extends Item {
         this.BasalHeatProduction=0;
         this.BasalPower=0;
     }
+    public GGItem_NC(String name){
+        this(name, Color.valueOf("54f936"));;
+    }
 
     @Override
     public void setStats(){
